@@ -77,10 +77,10 @@ class Settings(BaseSettings):
     analysis_include_replies: bool = False
     analysis_goal: str = Field(
         default=(
-            "Я фаундер и продвигаю себя в X (Twitter). Ищу людей для нетворкинга: "
-            "фаундеров, инвесторов, маркетологов, разработчиков и создателей контента "
-            "из стартап-среды. План: фоловлю, комментирую их твиты, жду ответного фоллоу. "
-            "Оцени, насколько человек интересен для такого нетворкинга и как лучше начать общение."
+            "I am a founder growing my presence on X (Twitter). I am looking for people to network "
+            "with: founders, investors, marketers, developers and content creators from the startup "
+            "scene. My routine: follow, comment on their tweets, wait for a follow-back. Rate how "
+            "interesting this person is for that kind of networking and how best to start a conversation."
         )
     )
 

@@ -23,8 +23,8 @@ type Values = Record<string, unknown>;
 
 const SOURCE_LABELS: Record<string, string> = {
   twitterapi: "twitterapi.io",
-  x: "Официальный X API",
-  fake: "Синтетика (для тестов)",
+  x: "Official X API",
+  fake: "Synthetic (for tests)",
 };
 
 export function SettingsForm() {
@@ -36,7 +36,7 @@ export function SettingsForm() {
   useEffect(() => {
     const x = sp.get("x");
     const xe = sp.get("x_error");
-    if (x === "connected") toast.success("X подключён");
+    if (x === "connected") toast.success("X connected");
     if (xe) toast.error(`X: ${xe}`);
     if (x || xe) window.history.replaceState(null, "", "/crm/settings");
   }, [sp]);
@@ -53,10 +53,10 @@ export function SettingsForm() {
     try {
       await api.put("/settings", { values: draft });
       setDraft({});
-      toast.success("Настройки сохранены");
+      toast.success("Settings saved");
       void mutate();
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Ошибка");
+      toast.error(e instanceof Error ? e.message : "Error");
     } finally {
       setSaving(false);
     }
@@ -69,7 +69,7 @@ export function SettingsForm() {
       delete n[k];
       return n;
     });
-    toast.success("Сброшено к .env");
+    toast.success("Reset to .env");
     void mutate();
   };
 
@@ -78,7 +78,7 @@ export function SettingsForm() {
       const { url } = await api.get<{ url: string }>("/auth/x/start");
       window.location.href = url;
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Ошибка");
+      toast.error(e instanceof Error ? e.message : "Error");
     }
   };
 
@@ -93,7 +93,7 @@ export function SettingsForm() {
         type={type}
         value={String(value(k) ?? "")}
         onChange={(e) => set(k, type === "number" ? Number(e.target.value) : e.target.value)}
-        placeholder={type === "password" ? "не задан" : undefined}
+        placeholder={type === "password" ? "not set" : undefined}
         autoComplete="off"
       />
       {hint && <p className="text-xs text-muted-foreground">{hint}</p>}
@@ -104,9 +104,9 @@ export function SettingsForm() {
     data.overrides.includes(k) ? (
       <span className="inline-flex items-center gap-1">
         <Badge variant="outline" className="text-[10px]">
-          из базы
+          from DB
         </Badge>
-        <Button size="icon-xs" variant="ghost" aria-label="Сбросить к .env" title="Сбросить к .env" onClick={() => void reset(k)}>
+        <Button size="icon-xs" variant="ghost" aria-label="Reset to .env" title="Reset to .env" onClick={() => void reset(k)}>
           <RotateCcwIcon />
         </Button>
       </span>
@@ -114,90 +114,93 @@ export function SettingsForm() {
 
   const sourceOptions = data.sources.map((s) => ({ value: s, label: SOURCE_LABELS[s] ?? s }));
   const cfg = data.configured;
+  const provider = String(value("analysis_provider") ?? "claude_cli");
 
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold tracking-tight">Настройки</h1>
+        <h1 className="text-xl font-semibold tracking-tight">Settings</h1>
         <Button size="sm" disabled={!dirty || saving} onClick={() => void save()}>
-          Сохранить{dirty ? ` (${Object.keys(draft).length})` : ""}
+          Save{dirty ? ` (${Object.keys(draft).length})` : ""}
         </Button>
       </div>
 
       <div className="flex flex-wrap gap-2 text-xs">
-        <Badge variant={cfg.my_handle ? "secondary" : "destructive"}>хендл {cfg.my_handle ? "задан" : "не задан"}</Badge>
-        <Badge variant={cfg.twitterapi ? "secondary" : "outline"}>twitterapi.io {cfg.twitterapi ? "ок" : "нет ключа"}</Badge>
-        <Badge variant={cfg.x ? "secondary" : "outline"}>X API {cfg.x ? "подключён" : cfg.x_app ? "не подключён" : "нет приложения"}</Badge>
-        <Badge variant={cfg.anthropic ? "secondary" : "outline"}>Claude {cfg.anthropic ? "ок" : "нет ключа"}</Badge>
+        <Badge variant={cfg.my_handle ? "secondary" : "destructive"}>handle {cfg.my_handle ? "set" : "missing"}</Badge>
+        <Badge variant={cfg.twitterapi ? "secondary" : "outline"}>twitterapi.io {cfg.twitterapi ? "ok" : "no key"}</Badge>
+        <Badge variant={cfg.x ? "secondary" : "outline"}>X API {cfg.x ? "connected" : cfg.x_app ? "not connected" : "no app"}</Badge>
+        <Badge variant={provider === "anthropic_api" && !cfg.anthropic ? "outline" : "secondary"}>
+          analysis: {provider === "claude_cli" ? "Claude Code CLI" : provider === "codex_cli" ? "Codex CLI" : cfg.anthropic ? "Anthropic API" : "API key missing"}
+        </Badge>
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
         <Card size="sm">
           <CardHeader>
-            <CardTitle>Аккаунт и источники</CardTitle>
-            <CardDescription>Чей аккаунт отслеживаем и откуда брать данные</CardDescription>
+            <CardTitle>Account & sources</CardTitle>
+            <CardDescription>Whose account we track and where the data comes from</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <Field k="my_handle" label="Мой @handle" hint="Без @. Нужен для twitterapi.io; при подключении X заполняется сам." />
+            <Field k="my_handle" label="My @handle" hint="Without @. Required for twitterapi.io; filled automatically when X is connected." />
             {(["source_lists", "source_tweets", "source_profiles"] as const).map((k) => (
               <div key={k} className="space-y-1.5">
                 <div className="flex items-center gap-2">
-                  <Label>{k === "source_lists" ? "Списки фолловеров/подписок" : k === "source_tweets" ? "Твиты" : "Профили"}</Label>
+                  <Label>{k === "source_lists" ? "Followers / following lists" : k === "source_tweets" ? "Tweets" : "Profiles"}</Label>
                   <Override k={k} />
                 </div>
                 <SimpleSelect value={String(value(k) ?? "")} onChange={(v) => v && set(k, v)} options={sourceOptions} size="default" className="w-full" />
               </div>
             ))}
             <p className="text-xs text-muted-foreground">
-              Рекомендация: списки через X API (owned reads дёшевы и легальны), твиты и профили через twitterapi.io.
+              Recommendation: lists via the X API (owned reads are cheap and legit), tweets and profiles via twitterapi.io.
             </p>
           </CardContent>
         </Card>
 
         <Card size="sm">
           <CardHeader>
-            <CardTitle>Ключи</CardTitle>
-            <CardDescription>Хранятся в SQLite бэкенда. Можно задать и в backend/.env</CardDescription>
+            <CardTitle>Keys</CardTitle>
+            <CardDescription>Stored in the backend SQLite. Can also be set in backend/.env</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <Field k="twitterapi_io_key" label="twitterapi.io API key" type="password" hint="twitterapi.io → Dashboard → API key" />
             <Field k="anthropic_api_key" label="Anthropic API key" type="password" hint="console.anthropic.com" />
             <Field k="x_client_id" label="X OAuth 2.0 Client ID" hint="developer.x.com → App → Keys and tokens → OAuth 2.0" />
-            <Field k="x_client_secret" label="X OAuth 2.0 Client Secret" type="password" hint="Для confidential-приложений. Для public можно оставить пустым." />
+            <Field k="x_client_secret" label="X OAuth 2.0 Client Secret" type="password" hint="For confidential apps. Leave empty for a public client." />
           </CardContent>
         </Card>
 
         <Card size="sm">
           <CardHeader>
-            <CardTitle>Подключение X</CardTitle>
-            <CardDescription>OAuth 2.0 с PKCE, scopes: tweet.read users.read follows.read offline.access</CardDescription>
+            <CardTitle>X connection</CardTitle>
+            <CardDescription>OAuth 2.0 with PKCE, scopes: tweet.read users.read follows.read offline.access</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3 text-sm">
             <div className="space-y-1.5">
-              <Label>Callback URL для портала X</Label>
+              <Label>Callback URL for the X developer portal</Label>
               <div className="flex gap-1">
                 <Input readOnly value={data.redirect_uri} className="font-mono text-xs" />
                 <Button
                   size="icon"
                   variant="outline"
-                  aria-label="Копировать"
+                  aria-label="Copy"
                   onClick={async () => {
                     await navigator.clipboard.writeText(data.redirect_uri);
-                    toast.success("Скопировано");
+                    toast.success("Copied");
                   }}
                 >
                   <CopyIcon />
                 </Button>
               </div>
-              <p className="text-xs text-muted-foreground">Добавь этот адрес в App settings → User authentication settings → Callback URI.</p>
+              <p className="text-xs text-muted-foreground">Add this URL under App settings → User authentication settings → Callback URI.</p>
             </div>
             {data.x.connected ? (
               <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg bg-muted/60 p-3">
                 <div>
-                  <div className="font-medium">Подключён как @{data.x.handle ?? "?"}</div>
+                  <div className="font-medium">Connected as @{data.x.handle ?? "?"}</div>
                   <div className="text-xs text-muted-foreground">
-                    токен до {formatDate(data.x.expires_at ?? null, true)}
-                    {data.x.has_refresh_token ? ", обновляется автоматически" : ", без refresh token"}
+                    token valid until {formatDate(data.x.expires_at ?? null, true)}
+                    {data.x.has_refresh_token ? ", refreshes automatically" : ", no refresh token"}
                   </div>
                 </div>
                 <Button
@@ -205,98 +208,98 @@ export function SettingsForm() {
                   variant="outline"
                   onClick={async () => {
                     await api.del("/auth/x");
-                    toast.success("X отключён");
+                    toast.success("X disconnected");
                     void mutate();
                   }}
                 >
-                  Отключить
+                  Disconnect
                 </Button>
               </div>
             ) : (
               <Button size="sm" disabled={!cfg.x_app} onClick={() => void connectX()}>
-                Подключить X
+                Connect X
               </Button>
             )}
-            {!cfg.x_app && <p className="text-xs text-muted-foreground">Сначала сохрани Client ID.</p>}
+            {!cfg.x_app && <p className="text-xs text-muted-foreground">Save the Client ID first.</p>}
           </CardContent>
         </Card>
 
         <Card size="sm">
           <CardHeader>
-            <CardTitle>Расписание синка</CardTitle>
-            <CardDescription>Воркер сам ставит синк в очередь</CardDescription>
+            <CardTitle>Sync schedule</CardTitle>
+            <CardDescription>The worker queues syncs on its own</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-1.5">
               <div className="flex items-center gap-2">
-                <Label>Режим</Label>
+                <Label>Mode</Label>
                 <Override k="sync_schedule_mode" />
               </div>
               <SimpleSelect
                 value={String(value("sync_schedule_mode") ?? "daily")}
                 onChange={(v) => v && set("sync_schedule_mode", v)}
                 options={[
-                  { value: "daily", label: "Раз в день в заданное время" },
-                  { value: "interval", label: "Каждые N часов" },
-                  { value: "off", label: "Выключено (только вручную)" },
+                  { value: "daily", label: "Daily at a set time" },
+                  { value: "interval", label: "Every N hours" },
+                  { value: "off", label: "Off (manual only)" },
                 ]}
                 size="default"
                 className="w-full"
               />
             </div>
             <div className="grid grid-cols-2 gap-3">
-              <Field k="sync_daily_time" label="Время (локальное)" hint="ЧЧ:ММ" />
-              <Field k="sync_interval_hours" label="Интервал, ч" type="number" />
+              <Field k="sync_daily_time" label="Time (local)" hint="HH:MM" />
+              <Field k="sync_interval_hours" label="Interval, hours" type="number" />
             </div>
           </CardContent>
         </Card>
 
         <Card size="sm">
           <CardHeader>
-            <CardTitle>Пайплайн и синк</CardTitle>
+            <CardTitle>Pipeline & sync</CardTitle>
           </CardHeader>
           <CardContent className="grid grid-cols-2 gap-3">
-            <Field k="followback_deadline_days" label="Ждать ответного фоллоу, дней" type="number" />
-            <Field k="unfollow_confirmations" label="Подтверждений отписки" type="number" hint="Сколько синков подряд человека нет в списке" />
-            <Field k="count_tolerance_pct" label="Допуск по счётчику, %" type="number" hint="Больше — синк помечается подозрительным" />
-            <Field k="count_tolerance_abs" label="Допуск, записей" type="number" />
-            <Field k="profile_refresh_days" label="Обновлять профили старше, дней" type="number" />
-            <Field k="profile_refresh_batch" label="Профилей за синк, макс." type="number" />
+            <Field k="followback_deadline_days" label="Wait for follow-back, days" type="number" />
+            <Field k="unfollow_confirmations" label="Unfollow confirmations" type="number" hint="Consecutive syncs a person must be missing from the list" />
+            <Field k="count_tolerance_pct" label="Count tolerance, %" type="number" hint="Above this the sync is marked suspicious" />
+            <Field k="count_tolerance_abs" label="Count tolerance, records" type="number" />
+            <Field k="profile_refresh_days" label="Refresh profiles older than, days" type="number" />
+            <Field k="profile_refresh_batch" label="Max profiles per sync" type="number" />
           </CardContent>
         </Card>
 
         <Card size="sm">
           <CardHeader>
-            <CardTitle>Анализ</CardTitle>
-            <CardDescription>Через что и о чём спрашиваем модель</CardDescription>
+            <CardTitle>Analysis</CardTitle>
+            <CardDescription>Which model we ask, and what we ask it</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-1.5">
               <div className="flex items-center gap-2">
-                <Label>Провайдер</Label>
+                <Label>Provider</Label>
                 <Override k="analysis_provider" />
               </div>
               <SimpleSelect
                 value={String(value("analysis_provider") ?? "claude_cli")}
                 onChange={(v) => v && set("analysis_provider", v)}
                 options={[
-                  { value: "claude_cli", label: "Claude Code CLI (подписка Anthropic)" },
-                  { value: "codex_cli", label: "Codex CLI (подписка ChatGPT)" },
-                  { value: "anthropic_api", label: "Anthropic API (ключ, оплата за токены)" },
+                  { value: "claude_cli", label: "Claude Code CLI (Anthropic subscription)" },
+                  { value: "codex_cli", label: "Codex CLI (ChatGPT subscription)" },
+                  { value: "anthropic_api", label: "Anthropic API (key, pay per token)" },
                 ]}
                 size="default"
                 className="w-full"
               />
               <p className="text-xs text-muted-foreground">
-                CLI-варианты используют логин на этой машине (`claude /login`, `codex login`), ключ не нужен.
+                CLI providers use the login on this machine (`claude /login`, `codex login`); no API key needed.
               </p>
             </div>
             <div className="grid grid-cols-2 gap-3">
-              <Field k="analysis_model" label="Модель" hint="Пусто = модель провайдера по умолчанию; для claude: opus / sonnet" />
-              <Field k="analysis_tweets" label="Твитов на разбор" type="number" />
-              <Field k="claude_cli_path" label="Путь к claude" hint="Если не в PATH у воркера" />
-              <Field k="codex_cli_path" label="Путь к codex" />
-              <Field k="analysis_timeout_seconds" label="Таймаут разбора, сек" type="number" />
+              <Field k="analysis_model" label="Model" hint="Empty = provider default; for claude: opus / sonnet" />
+              <Field k="analysis_tweets" label="Tweets per analysis" type="number" />
+              <Field k="claude_cli_path" label="claude path" hint="If not on the worker's PATH" />
+              <Field k="codex_cli_path" label="codex path" />
+              <Field k="analysis_timeout_seconds" label="Analysis timeout, s" type="number" />
             </div>
             <div className="flex items-center gap-2">
               <Switch
@@ -304,16 +307,16 @@ export function SettingsForm() {
                 checked={Boolean(value("analysis_include_replies"))}
                 onCheckedChange={(c) => set("analysis_include_replies", c)}
               />
-              <Label htmlFor="s-replies">Загружать и анализировать реплаи</Label>
+              <Label htmlFor="s-replies">Fetch and analyze replies</Label>
               <Override k="analysis_include_replies" />
             </div>
             <div className="space-y-1.5">
               <div className="flex items-center gap-2">
-                <Label htmlFor="s-goal">Моя цель</Label>
+                <Label htmlFor="s-goal">My goal</Label>
                 <Override k="analysis_goal" />
               </div>
               <Textarea id="s-goal" rows={6} value={String(value("analysis_goal") ?? "")} onChange={(e) => set("analysis_goal", e.target.value)} />
-              <p className="text-xs text-muted-foreground">Попадает в промпт. Изменение цели сбрасывает кэш разборов.</p>
+              <p className="text-xs text-muted-foreground">Goes into the prompt. Changing it invalidates cached analyses.</p>
             </div>
           </CardContent>
         </Card>

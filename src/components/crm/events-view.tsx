@@ -20,10 +20,10 @@ import { BackendAlert } from "./backend-alert";
 import { EventFeed } from "./event-feed";
 
 const PRESETS: { value: string; label: string; hours: number | null }[] = [
-  { value: "24h", label: "24ч", hours: 24 },
-  { value: "7d", label: "7д", hours: 24 * 7 },
-  { value: "30d", label: "30д", hours: 24 * 30 },
-  { value: "all", label: "Все", hours: null },
+  { value: "24h", label: "24h", hours: 24 },
+  { value: "7d", label: "7d", hours: 24 * 7 },
+  { value: "30d", label: "30d", hours: 24 * 30 },
+  { value: "all", label: "All", hours: null },
 ];
 
 function sinceFor(preset: string): string | null {
@@ -71,11 +71,11 @@ export function EventsView() {
   return (
     <div className="space-y-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h1 className="text-xl font-semibold tracking-tight">События</h1>
+        <h1 className="text-xl font-semibold tracking-tight">Events</h1>
         <div className="flex items-center gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger render={<Button size="sm" variant="outline" />}>
-              {types.length ? `Типы: ${types.length}` : "Все типы"} <ChevronDownIcon />
+              {types.length ? `Types: ${types.length}` : "All types"} <ChevronDownIcon />
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               {EVENT_TYPES.map((t) => (
@@ -109,7 +109,7 @@ export function EventsView() {
           {data && data.length >= 100 && !exhausted && (
             <div className="py-3 text-center">
               <Button size="sm" variant="outline" disabled={loadingMore} onClick={() => void loadMore()}>
-                Показать ещё
+                Show more
               </Button>
             </div>
           )}

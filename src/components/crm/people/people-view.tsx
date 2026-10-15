@@ -57,7 +57,7 @@ export function PeopleView() {
     <div className="space-y-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h1 className="text-xl font-semibold tracking-tight">
-          Люди {data && <span className="text-base font-normal text-muted-foreground tabular-nums">· {data.total}</span>}
+          People {data && <span className="text-base font-normal text-muted-foreground tabular-nums">· {data.total}</span>}
         </h1>
         <div className="flex gap-2">
           <SavedViews filter={filter} onApply={setFilter} />
@@ -82,8 +82,8 @@ export function PeopleView() {
       ) : data && data.items.length === 0 ? (
         <Empty className="rounded-xl ring-1 ring-foreground/10">
           <EmptyHeader>
-            <EmptyTitle>Никого не нашлось</EmptyTitle>
-            <EmptyDescription>Смягчи фильтр или запусти синхронизацию на странице «Обзор».</EmptyDescription>
+            <EmptyTitle>Nobody found</EmptyTitle>
+            <EmptyDescription>Loosen the filter or run a sync from the Overview page.</EmptyDescription>
           </EmptyHeader>
         </Empty>
       ) : data ? (
@@ -91,14 +91,14 @@ export function PeopleView() {
           <PeopleTable people={data.items} selected={selected} onToggle={toggle} onToggleAll={toggleAll} />
           <div className="flex items-center justify-between text-sm text-muted-foreground">
             <span className="tabular-nums">
-              Стр. {page} из {pages}
+              Page {page} of {pages}
             </span>
             <div className="flex gap-2">
               <Button size="sm" variant="outline" disabled={page <= 1} onClick={() => setFilter({ ...filter, page: page - 1 })}>
-                Назад
+                Previous
               </Button>
               <Button size="sm" variant="outline" disabled={page >= pages} onClick={() => setFilter({ ...filter, page: page + 1 })}>
-                Дальше
+                Next
               </Button>
             </div>
           </div>

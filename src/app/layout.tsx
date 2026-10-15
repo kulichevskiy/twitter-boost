@@ -14,9 +14,9 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: { default: "Twitter Boost", template: "%s — Twitter Boost" },
-  description: "Курс по продвижению фаундера в Twitter (X) и CRM для своего аккаунта.",
+  description: "Founder Twitter (X) growth course and a CRM for my own account.",
   manifest: "/manifest.webmanifest",
-  appleWebApp: { capable: true, statusBarStyle: "default", title: "Twitter-курс" },
+  appleWebApp: { capable: true, statusBarStyle: "default", title: "Twitter Boost" },
   icons: { apple: "/icons/apple-touch-icon.png", icon: "/icons/icon-192.png" },
 };
 
@@ -32,7 +32,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="ru" className={`${inter.variable} h-full antialiased`}>
+    <html lang="en" className={`${inter.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
         <PlayerProvider>
           <header className="sticky top-0 z-30 border-b bg-background/95 pt-[env(safe-area-inset-top)] backdrop-blur supports-backdrop-filter:bg-background/80">

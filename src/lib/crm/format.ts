@@ -1,6 +1,6 @@
 import type { EventType, Relation, SortKey, Stage } from "./types";
 
-const rtf = new Intl.RelativeTimeFormat("ru", { numeric: "auto" });
+const rtf = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
 
 /** Backend stores naive UTC timestamps without a zone suffix. */
 export function parseDate(value: string | null | undefined): Date | null {
@@ -15,7 +15,7 @@ export function relativeTime(value: string | null | undefined, now = Date.now())
   if (!d) return "—";
   const diff = (d.getTime() - now) / 1000;
   const abs = Math.abs(diff);
-  if (abs < 60) return "только что";
+  if (abs < 60) return "just now";
   if (abs < 3600) return rtf.format(Math.round(diff / 60), "minute");
   if (abs < 86400) return rtf.format(Math.round(diff / 3600), "hour");
   if (abs < 86400 * 30) return rtf.format(Math.round(diff / 86400), "day");
@@ -26,7 +26,7 @@ export function relativeTime(value: string | null | undefined, now = Date.now())
 export function formatDate(value: string | null | undefined, withTime = false): string {
   const d = parseDate(value);
   if (!d) return "—";
-  return d.toLocaleString("ru-RU", {
+  return d.toLocaleString("en-GB", {
     day: "2-digit",
     month: "short",
     year: d.getFullYear() === new Date().getFullYear() ? undefined : "numeric",
@@ -48,7 +48,7 @@ export function daysUntil(value: string | null | undefined, now = Date.now()): n
 
 export function compact(n: number | null | undefined): string {
   if (n === null || n === undefined) return "—";
-  return new Intl.NumberFormat("ru-RU", { notation: "compact", maximumFractionDigits: 1 }).format(n);
+  return new Intl.NumberFormat("en-US", { notation: "compact", maximumFractionDigits: 1 }).format(n);
 }
 
 export function duration(start: string | null, end: string | null): string {
@@ -56,19 +56,19 @@ export function duration(start: string | null, end: string | null): string {
   const b = parseDate(end);
   if (!a || !b) return "—";
   const s = Math.round((b.getTime() - a.getTime()) / 1000);
-  if (s < 60) return `${s} с`;
-  return `${Math.floor(s / 60)} мин ${s % 60} с`;
+  if (s < 60) return `${s}s`;
+  return `${Math.floor(s / 60)}m ${s % 60}s`;
 }
 
 export const STAGE_LABELS: Record<Stage, string> = {
-  candidate: "Кандидат",
-  followed: "Зафоловил",
-  engaged: "Общаюсь",
-  followed_back: "Взаимно",
-  no_response: "Без ответа",
-  unfollowed: "Отфоловил",
-  lost: "Отписался",
-  ignored: "Игнор",
+  candidate: "Candidate",
+  followed: "Followed",
+  engaged: "Engaged",
+  followed_back: "Followed back",
+  no_response: "No response",
+  unfollowed: "Unfollowed",
+  lost: "Lost",
+  ignored: "Ignored",
 };
 
 export const STAGE_CLASSES: Record<Stage, string> = {
@@ -83,14 +83,14 @@ export const STAGE_CLASSES: Record<Stage, string> = {
 };
 
 export const EVENT_LABELS: Record<EventType, string> = {
-  followed_me: "подписался на меня",
-  unfollowed_me: "отписался от меня",
-  i_followed: "я подписался",
-  i_unfollowed: "я отписался",
-  profile_changed: "изменил профиль",
-  stage_changed: "стадия изменена",
-  note_added: "заметка",
-  analyzed: "разобран",
+  followed_me: "followed me",
+  unfollowed_me: "unfollowed me",
+  i_followed: "I followed",
+  i_unfollowed: "I unfollowed",
+  profile_changed: "profile changed",
+  stage_changed: "stage changed",
+  note_added: "note added",
+  analyzed: "analyzed",
 };
 
 export const EVENT_CLASSES: Partial<Record<EventType, string>> = {
@@ -105,39 +105,39 @@ export function eventLabel(type: string): string {
 }
 
 export const RELATION_LABELS: Record<Relation, string> = {
-  any: "Все",
-  mutual: "Взаимные",
-  follower_only: "Только фолловят меня",
-  following_only: "Только я фоловлю",
-  follower: "Фолловят меня",
-  following: "Я фоловлю",
-  unfollowed_me: "Отписались от меня",
-  i_unfollowed: "Я отписался",
-  none: "Нет связи",
+  any: "All",
+  mutual: "Mutual",
+  follower_only: "Follow me only",
+  following_only: "I follow only",
+  follower: "Follow me",
+  following: "I follow",
+  unfollowed_me: "Unfollowed me",
+  i_unfollowed: "I unfollowed",
+  none: "No relation",
 };
 
 export const SORT_LABELS: Record<SortKey, string> = {
-  "-last_event": "Последнее событие",
-  last_event: "Давнее событие",
-  "-followers": "Фолловеров: больше",
-  followers: "Фолловеров: меньше",
-  "-score": "Оценка: выше",
-  score: "Оценка: ниже",
-  "-first_seen": "Новые",
-  first_seen: "Старые",
-  handle: "По хендлу",
-  deadline: "По дедлайну",
+  "-last_event": "Latest event",
+  last_event: "Oldest event",
+  "-followers": "Most followers",
+  followers: "Fewest followers",
+  "-score": "Highest score",
+  score: "Lowest score",
+  "-first_seen": "Newest",
+  first_seen: "Oldest",
+  handle: "By handle",
+  deadline: "By deadline",
 };
 
 export const PERSONA_LABELS: Record<string, string> = {
-  founder: "Фаундер",
-  investor: "Инвестор",
-  developer: "Разработчик",
-  marketer: "Маркетолог",
-  creator: "Создатель контента",
-  company: "Компания",
-  bot: "Бот",
-  other: "Другое",
+  founder: "Founder",
+  investor: "Investor",
+  developer: "Developer",
+  marketer: "Marketer",
+  creator: "Creator",
+  company: "Company",
+  bot: "Bot",
+  other: "Other",
 };
 
 export function personaLabel(p: string | null | undefined): string {
@@ -146,13 +146,13 @@ export function personaLabel(p: string | null | undefined): string {
 }
 
 export const JOB_LABELS: Record<string, string> = {
-  sync_full: "Синк списков",
-  fetch_tweets: "Твиты",
-  analyze: "Анализ",
-  fetch_and_analyze: "Твиты + анализ",
-  refresh_profiles: "Профили",
-  lookup: "Поиск по хендлу",
-  bulk: "Массовое действие",
+  sync_full: "List sync",
+  fetch_tweets: "Tweets",
+  analyze: "Analysis",
+  fetch_and_analyze: "Tweets + analysis",
+  refresh_profiles: "Profiles",
+  lookup: "Handle lookup",
+  bulk: "Bulk action",
 };
 
 export function jobLabel(type: string): string {

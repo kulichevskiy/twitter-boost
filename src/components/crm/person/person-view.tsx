@@ -54,8 +54,8 @@ export function PersonView({ id }: { id: string }) {
       () =>
         api.post<JobOut>(`/people/${id}/analyze?force=${opts.force ? "true" : "false"}&refresh=${opts.refresh ? "true" : "false"}`),
       {
-        pending: "Разбираю…",
-        success: (j) => (j.result?.created === false ? "Разбор не изменился (кэш)" : `Разобран, оценка ${String(j.result?.score ?? "?")}`),
+        pending: "Analyzing…",
+        success: (j) => (j.result?.created === false ? "Analysis unchanged (cached)" : `Analyzed, score ${String(j.result?.score ?? "?")}`),
         onDone: () => {
           refresh();
           setTab("analysis");
@@ -66,7 +66,7 @@ export function PersonView({ id }: { id: string }) {
   return (
     <div className="space-y-4">
       <Link href="/crm/people" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
-        <ChevronLeftIcon className="size-4" /> Все люди
+        <ChevronLeftIcon className="size-4" /> All people
       </Link>
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
         <div className="min-w-0 flex-1 space-y-4">
@@ -78,8 +78,8 @@ export function PersonView({ id }: { id: string }) {
               disabled={running}
               onClick={() =>
                 start(() => api.post<JobOut>(`/people/${id}/tweets/refresh`), {
-                  pending: "Загружаю твиты…",
-                  success: (j) => `Новых твитов: ${String(j.result?.new_tweets ?? 0)}`,
+                  pending: "Fetching tweets…",
+                  success: (j) => `New tweets: ${String(j.result?.new_tweets ?? 0)}`,
                   onDone: () => {
                     refresh();
                     setTab("tweets");
@@ -87,19 +87,19 @@ export function PersonView({ id }: { id: string }) {
                 })
               }
             >
-              <RefreshCwIcon className={running ? "animate-spin" : ""} /> Обновить твиты
+              <RefreshCwIcon className={running ? "animate-spin" : ""} /> Refresh tweets
             </Button>
             <div className="flex">
               <Button size="sm" disabled={running} className="rounded-r-none" onClick={() => void analyze({})}>
-                <SparklesIcon /> Разобрать
+                <SparklesIcon /> Analyze
               </Button>
               <DropdownMenu>
                 <DropdownMenuTrigger render={<Button size="icon-sm" disabled={running} className="rounded-l-none border-l border-l-background/30" />}>
                   <ChevronDownIcon />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={() => void analyze({ refresh: true })}>Обновить твиты и разобрать</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => void analyze({ force: true })}>Разобрать заново (без кэша)</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => void analyze({ refresh: true })}>Refresh tweets and analyze</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => void analyze({ force: true })}>Re-analyze (skip cache)</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
@@ -108,10 +108,10 @@ export function PersonView({ id }: { id: string }) {
             <CardContent>
               <Tabs value={tab} onValueChange={(v) => setTab(String(v))}>
                 <TabsList variant="line">
-                  <TabsTrigger value="analysis">Анализ</TabsTrigger>
-                  <TabsTrigger value="tweets">Твиты {data.tweets.length ? `(${data.tweets.length})` : ""}</TabsTrigger>
-                  <TabsTrigger value="timeline">Таймлайн</TabsTrigger>
-                  <TabsTrigger value="notes">Заметки {data.notes.length ? `(${data.notes.length})` : ""}</TabsTrigger>
+                  <TabsTrigger value="analysis">Analysis</TabsTrigger>
+                  <TabsTrigger value="tweets">Tweets {data.tweets.length ? `(${data.tweets.length})` : ""}</TabsTrigger>
+                  <TabsTrigger value="timeline">Timeline</TabsTrigger>
+                  <TabsTrigger value="notes">Notes {data.notes.length ? `(${data.notes.length})` : ""}</TabsTrigger>
                 </TabsList>
                 <TabsContent value="analysis" className="pt-4">
                   <AnalysisCard analysis={data.analysis} count={data.analyses_count} />
@@ -125,9 +125,9 @@ export function PersonView({ id }: { id: string }) {
                     <div className="mt-4 space-y-1 text-xs text-muted-foreground">
                       {data.relations.map((r) => (
                         <div key={r.direction}>
-                          {r.direction === "follower" ? "Фолловит меня" : "Я фоловлю"}: {r.active ? "да" : "нет"}, впервые{" "}
-                          {new Date(r.first_seen_at + "Z").toLocaleDateString("ru-RU")}
-                          {r.ended_at && `, закончилось ${new Date(r.ended_at + "Z").toLocaleDateString("ru-RU")}`}
+                          {r.direction === "follower" ? "Follows me" : "I follow"}: {r.active ? "yes" : "no"}, first seen{" "}
+                          {new Date(r.first_seen_at + "Z").toLocaleDateString("en-GB")}
+                          {r.ended_at && `, ended ${new Date(r.ended_at + "Z").toLocaleDateString("en-GB")}`}
                         </div>
                       ))}
                     </div>

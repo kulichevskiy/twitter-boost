@@ -41,8 +41,8 @@ export function BulkToolbar({
       ? { filter: { ...filter, page: 1 }, action, limit: 5000, ...extra }
       : { ids: selected, action, ...extra };
     void start(() => api.post<JobOut>("/people/bulk", body), {
-      pending: `Применяю к ${count}…`,
-      success: (j) => `Готово: ${String(j.result?.created ?? count)} из ${String(j.result?.people ?? count)}`,
+      pending: `Applying to ${count}…`,
+      success: (j) => `Done: ${String(j.result?.created ?? count)} of ${String(j.result?.people ?? count)}`,
       onDone,
     });
   };
@@ -51,27 +51,27 @@ export function BulkToolbar({
 
   return (
     <div className="flex flex-wrap items-center gap-2 rounded-xl bg-muted/60 px-3 py-2 text-sm">
-      <span className="font-medium tabular-nums">{count} выбрано</span>
+      <span className="font-medium tabular-nums">{count} selected</span>
       {total > selected.length && (
         <Button variant="link" size="sm" onClick={() => setApplyAll((v) => !v)}>
-          {applyAll ? "только отмеченные" : `применить ко всем ${total}`}
+          {applyAll ? "selected only" : `apply to all ${total}`}
         </Button>
       )}
       <Button size="sm" variant="outline" disabled={running} onClick={() => run("fetch_tweets")}>
-        Обновить твиты
+        Refresh tweets
       </Button>
       <Button size="sm" variant="outline" disabled={running} onClick={() => run("analyze")}>
-        Разобрать
+        Analyze
       </Button>
       <Button size="sm" variant="outline" disabled={running} onClick={() => run("refresh_profiles")}>
-        Обновить профили
+        Refresh profiles
       </Button>
       <DropdownMenu>
         <DropdownMenuTrigger render={<Button size="sm" variant="outline" disabled={running} />}>
-          Стадия <ChevronDownIcon />
+          Stage <ChevronDownIcon />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuLabel>Перевести в стадию</DropdownMenuLabel>
+          <DropdownMenuLabel>Move to stage</DropdownMenuLabel>
           <DropdownMenuSeparator />
           {STAGES.map((s) => (
             <DropdownMenuItem key={s} onClick={() => run("set_stage", { stage: s })}>
@@ -87,12 +87,12 @@ export function BulkToolbar({
           if (tag.trim()) run("add_tag", { tag: tag.trim() });
         }}
       >
-        <Input value={tag} onChange={(e) => setTag(e.target.value)} placeholder="тег" className="h-7 w-28 text-[0.8rem]" />
+        <Input value={tag} onChange={(e) => setTag(e.target.value)} placeholder="tag" className="h-7 w-28 text-[0.8rem]" />
         <Button size="sm" variant="outline" type="submit" disabled={running || !tag.trim()}>
-          + тег
+          + tag
         </Button>
         <Button size="sm" variant="ghost" type="button" disabled={running || !tag.trim()} onClick={() => run("remove_tag", { tag: tag.trim() })}>
-          − тег
+          − tag
         </Button>
       </form>
       <Button
@@ -103,7 +103,7 @@ export function BulkToolbar({
           setApplyAll(false);
           onClear();
         }}
-        aria-label="Снять выделение"
+        aria-label="Clear selection"
       >
         <XIcon />
       </Button>

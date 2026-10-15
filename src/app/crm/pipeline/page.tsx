@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PipelineBoard } from "@/components/crm/pipeline-board";
 
-export const metadata: Metadata = { title: "Пайплайн" };
+export const metadata: Metadata = { title: "Pipeline" };
 
 export default function PipelinePage() {
   return (

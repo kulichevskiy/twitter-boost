@@ -18,19 +18,19 @@ export function useJob() {
       opts: { pending?: string; success?: (job: JobOut) => string; onDone?: (job: JobOut) => void } = {},
     ): Promise<JobOut | null> => {
       setRunning(true);
-      const id = toast.loading(opts.pending ?? "В очереди…");
+      const id = toast.loading(opts.pending ?? "Queued…");
       try {
         const queued = await enqueue();
         const job = await pollJob(queued.id);
         if (job.status === "done") {
-          toast.success(opts.success ? opts.success(job) : "Готово", { id });
+          toast.success(opts.success ? opts.success(job) : "Done", { id });
           opts.onDone?.(job);
           return job;
         }
-        toast.error(job.error ? `Ошибка: ${job.error}` : `Задача ${job.status}`, { id });
+        toast.error(job.error ? `Error: ${job.error}` : `Job ${job.status}`, { id });
         return job;
       } catch (err) {
-        toast.error(err instanceof ApiError ? err.message : "Не удалось запустить задачу", { id });
+        toast.error(err instanceof ApiError ? err.message : "Failed to start job", { id });
         return null;
       } finally {
         setRunning(false);

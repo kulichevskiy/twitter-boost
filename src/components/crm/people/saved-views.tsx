@@ -30,12 +30,12 @@ export function SavedViews({ filter, onApply }: { filter: PeopleFilter; onApply:
     delete rest.page_size;
     try {
       await api.post("/views", { name: name.trim(), filter: rest });
-      toast.success(`Вид «${name.trim()}» сохранён`);
+      toast.success(`View “${name.trim()}” saved`);
       setOpen(false);
       setName("");
       void mutate();
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Не удалось сохранить");
+      toast.error(e instanceof Error ? e.message : "Failed to save");
     }
   };
 
@@ -43,21 +43,21 @@ export function SavedViews({ filter, onApply }: { filter: PeopleFilter; onApply:
     <>
       <DropdownMenu>
         <DropdownMenuTrigger render={<Button size="sm" variant="outline" />}>
-          <BookmarkIcon /> Виды <ChevronDownIcon />
+          <BookmarkIcon /> Views <ChevronDownIcon />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="min-w-56">
-          <DropdownMenuItem onClick={() => setOpen(true)}>Сохранить текущий фильтр…</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setOpen(true)}>Save current filter…</DropdownMenuItem>
           {data && data.length > 0 && (
             <>
               <DropdownMenuSeparator />
-              <DropdownMenuLabel>Сохранённые</DropdownMenuLabel>
+              <DropdownMenuLabel>Saved views</DropdownMenuLabel>
               {data.map((v) => (
                 <DropdownMenuItem key={v.id} onClick={() => onApply({ ...v.filter, page: 1 })} className="justify-between">
                   <span className="truncate">{v.name}</span>
                   <Button
                     size="icon-xs"
                     variant="ghost"
-                    aria-label="Удалить вид"
+                    aria-label="Delete view"
                     onClick={async (e) => {
                       e.stopPropagation();
                       await api.del(`/views/${v.id}`);
@@ -75,7 +75,7 @@ export function SavedViews({ filter, onApply }: { filter: PeopleFilter; onApply:
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Сохранить вид</DialogTitle>
+            <DialogTitle>Save view</DialogTitle>
           </DialogHeader>
           <form
             onSubmit={(e) => {
@@ -84,10 +84,10 @@ export function SavedViews({ filter, onApply }: { filter: PeopleFilter; onApply:
             }}
             className="space-y-3"
           >
-            <Input autoFocus value={name} onChange={(e) => setName(e.target.value)} placeholder="Название" />
+            <Input autoFocus value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" />
             <DialogFooter>
               <Button type="submit" disabled={!name.trim()}>
-                Сохранить
+                Save
               </Button>
             </DialogFooter>
           </form>

@@ -24,8 +24,8 @@ export function LookupDialog() {
     const h = handle.trim().replace(/^@/, "");
     if (!h) return;
     const job = await start(() => api.post<JobOut>("/people/lookup", { handle: h, stage }), {
-      pending: `Ищу @${h}…`,
-      success: () => `@${h} добавлен`,
+      pending: `Looking up @${h}…`,
+      success: () => `@${h} added`,
     });
     if (job?.status === "done" && job.result?.person_id) {
       setOpen(false);
@@ -37,12 +37,12 @@ export function LookupDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger render={<Button size="sm" variant="outline" />}>
-        <UserPlusIcon /> Добавить по @handle
+        <UserPlusIcon /> Add by @handle
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Добавить человека</DialogTitle>
-          <DialogDescription>Профиль подтянется из источника данных (платный запрос) и попадёт в пайплайн.</DialogDescription>
+          <DialogTitle>Add person</DialogTitle>
+          <DialogDescription>The profile is fetched from the data source (paid request) and added to the pipeline.</DialogDescription>
         </DialogHeader>
         <form
           className="space-y-3"
@@ -52,11 +52,11 @@ export function LookupDialog() {
           }}
         >
           <div className="space-y-1.5">
-            <Label htmlFor="lookup-handle">Хендл</Label>
+            <Label htmlFor="lookup-handle">Handle</Label>
             <Input id="lookup-handle" autoFocus value={handle} onChange={(e) => setHandle(e.target.value)} placeholder="@handle" />
           </div>
           <div className="space-y-1.5">
-            <Label>Стадия</Label>
+            <Label>Stage</Label>
             <SimpleSelect
               value={stage}
               onChange={(v) => setStage((v as Stage) ?? "candidate")}
@@ -67,7 +67,7 @@ export function LookupDialog() {
           </div>
           <DialogFooter>
             <Button type="submit" disabled={running || !handle.trim()}>
-              Добавить
+              Add
             </Button>
           </DialogFooter>
         </form>

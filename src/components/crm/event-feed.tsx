@@ -9,19 +9,19 @@ function describe(e: EventOut): string {
   if (e.type === "stage_changed") {
     const to = STAGE_LABELS[p.to as Stage] ?? String(p.to ?? "");
     const from = STAGE_LABELS[p.from as Stage] ?? String(p.from ?? "");
-    return `стадия: ${from || "—"} → ${to}`;
+    return `stage: ${from || "—"} → ${to}`;
   }
   if (e.type === "profile_changed") {
-    return `изменил ${Object.keys(p).join(", ")}`;
+    return `changed ${Object.keys(p).join(", ")}`;
   }
-  if (e.type === "note_added") return `заметка: ${String(p.preview ?? "")}`;
-  if (e.type === "analyzed") return `разобран, оценка ${String(p.score ?? "?")}`;
-  if (p.again) return `${eventLabel(e.type)} (снова)`;
+  if (e.type === "note_added") return `note: ${String(p.preview ?? "")}`;
+  if (e.type === "analyzed") return `analyzed, score ${String(p.score ?? "?")}`;
+  if (p.again) return `${eventLabel(e.type)} (again)`;
   return eventLabel(e.type);
 }
 
 export function EventFeed({ events, showPerson = true, className }: { events: EventOut[]; showPerson?: boolean; className?: string }) {
-  if (!events.length) return <p className="text-sm text-muted-foreground">Событий пока нет.</p>;
+  if (!events.length) return <p className="text-sm text-muted-foreground">No events yet.</p>;
   return (
     <ul className={cn("divide-y", className)}>
       {events.map((e) => (

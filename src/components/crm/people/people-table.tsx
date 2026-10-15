@@ -29,22 +29,22 @@ export function PeopleTable({
         <TableHeader>
           <TableRow>
             <TableHead className="w-8">
-              <Checkbox checked={allChecked} indeterminate={some} onCheckedChange={(c) => onToggleAll(!!c)} aria-label="Выбрать всех" />
+              <Checkbox checked={allChecked} indeterminate={some} onCheckedChange={(c) => onToggleAll(!!c)} aria-label="Select all" />
             </TableHead>
-            <TableHead>Человек</TableHead>
-            <TableHead className="text-right">Фолл.</TableHead>
-            <TableHead>Связь</TableHead>
-            <TableHead>Стадия</TableHead>
-            <TableHead>Оценка</TableHead>
-            <TableHead>Теги</TableHead>
-            <TableHead className="text-right">Событие</TableHead>
+            <TableHead>Person</TableHead>
+            <TableHead className="text-right">Followers</TableHead>
+            <TableHead>Relation</TableHead>
+            <TableHead>Stage</TableHead>
+            <TableHead>Score</TableHead>
+            <TableHead>Tags</TableHead>
+            <TableHead className="text-right">Last event</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {people.map((p) => (
             <TableRow key={p.id} data-state={selected.has(p.id) ? "selected" : undefined}>
               <TableCell>
-                <Checkbox checked={selected.has(p.id)} onCheckedChange={() => onToggle(p.id)} aria-label="Выбрать" />
+                <Checkbox checked={selected.has(p.id)} onCheckedChange={() => onToggle(p.id)} aria-label="Select" />
               </TableCell>
               <TableCell className="max-w-md">
                 <Link href={`/crm/people/${p.id}`} className="flex items-start gap-3">
@@ -66,7 +66,7 @@ export function PeopleTable({
               <TableCell>
                 <div className="flex items-center gap-1">
                   <StageBadge stage={p.stage} />
-                  {p.overdue && <Badge variant="destructive">просрочен</Badge>}
+                  {p.overdue && <Badge variant="destructive">overdue</Badge>}
                 </div>
               </TableCell>
               <TableCell>

@@ -8,12 +8,12 @@ export function BackendAlert({ error }: { error: unknown }) {
   return (
     <Alert variant="destructive">
       <AlertTriangleIcon />
-      <AlertTitle>{unreachable ? "Бэкенд недоступен" : "Ошибка запроса"}</AlertTitle>
+      <AlertTitle>{unreachable ? "Backend unreachable" : "Request failed"}</AlertTitle>
       <AlertDescription>
         {unreachable ? (
           <>
-            Запусти API: <code className="rounded bg-muted px-1 py-0.5 text-xs">cd backend && uv run crm serve</code> и
-            воркер: <code className="rounded bg-muted px-1 py-0.5 text-xs">uv run crm worker</code>.
+            Start the API: <code className="rounded bg-muted px-1 py-0.5 text-xs">cd backend && uv run crm serve</code> and
+            the worker: <code className="rounded bg-muted px-1 py-0.5 text-xs">uv run crm worker</code>.
           </>
         ) : (
           (e?.message ?? String(error))

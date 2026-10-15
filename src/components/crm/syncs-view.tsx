@@ -43,7 +43,7 @@ function JobStatus({ j }: { j: JobOut }) {
 
 function describeJob(j: JobOut): string {
   const p = j.payload;
-  if (j.type === "bulk") return `${String(p.action)} × ${Array.isArray(p.ids) ? p.ids.length : "фильтр"}`;
+  if (j.type === "bulk") return `${String(p.action)} × ${Array.isArray(p.ids) ? p.ids.length : "filter"}`;
   if (p.person_id) return `person ${String(p.person_id)}`;
   if (p.handle) return `@${String(p.handle)}`;
   if (p.trigger) return String(p.trigger);
@@ -69,46 +69,46 @@ export function SyncsView() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold tracking-tight">Синки и очередь</h1>
+        <h1 className="text-xl font-semibold tracking-tight">Syncs & queue</h1>
         <Button
           size="sm"
           disabled={running}
           onClick={() =>
             start(() => api.post<JobOut>("/syncs/run"), {
-              pending: "Синхронизирую…",
-              success: (j) => `Синк ${String(j.result?.status)}`,
+              pending: "Syncing…",
+              success: (j) => `Sync ${String(j.result?.status)}`,
               onDone: refreshAll,
             })
           }
         >
-          <RefreshCwIcon className={running ? "animate-spin" : ""} /> Синхронизировать
+          <RefreshCwIcon className={running ? "animate-spin" : ""} /> Sync now
         </Button>
       </div>
 
       <Card size="sm" className="py-0">
         <CardHeader className="pt-3">
-          <CardTitle>Синхронизации</CardTitle>
-          <CardDescription>Снапшоты списков фолловеров и подписок</CardDescription>
+          <CardTitle>Syncs</CardTitle>
+          <CardDescription>Snapshots of the followers and following lists</CardDescription>
         </CardHeader>
         <CardContent className="px-0 pb-0">
           {!syncs.data ? (
             <Skeleton className="m-4 h-32" />
           ) : syncs.data.length === 0 ? (
-            <p className="px-4 pb-4 text-sm text-muted-foreground">Синков ещё не было.</p>
+            <p className="px-4 pb-4 text-sm text-muted-foreground">No syncs yet.</p>
           ) : (
             <div className="overflow-x-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
                     <TableHead>#</TableHead>
-                    <TableHead>Когда</TableHead>
-                    <TableHead>Статус</TableHead>
-                    <TableHead>Тип</TableHead>
-                    <TableHead className="text-right">Фолловеры</TableHead>
-                    <TableHead className="text-right">Подписки</TableHead>
-                    <TableHead className="text-right">Профили</TableHead>
-                    <TableHead className="text-right">Запросов</TableHead>
-                    <TableHead className="text-right">Длит.</TableHead>
+                    <TableHead>When</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Type</TableHead>
+                    <TableHead className="text-right">Followers</TableHead>
+                    <TableHead className="text-right">Following</TableHead>
+                    <TableHead className="text-right">Profiles</TableHead>
+                    <TableHead className="text-right">Requests</TableHead>
+                    <TableHead className="text-right">Duration</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -157,17 +157,17 @@ export function SyncsView() {
       <Card size="sm" className="py-0">
         <CardHeader className="flex flex-row items-center justify-between pt-3">
           <div>
-            <CardTitle>Очередь задач</CardTitle>
-            <CardDescription>Твиты, анализ, профили, массовые действия</CardDescription>
+            <CardTitle>Jobs</CardTitle>
+            <CardDescription>Tweets, analysis, profiles, bulk actions</CardDescription>
           </div>
           <SimpleSelect
             value={status}
             onChange={(v) => setStatus(v ?? "all")}
             options={[
-              { value: "all", label: "Все статусы" },
-              { value: "queued,running", label: "Активные" },
-              { value: "failed", label: "Ошибки" },
-              { value: "done", label: "Готовые" },
+              { value: "all", label: "All statuses" },
+              { value: "queued,running", label: "Active" },
+              { value: "failed", label: "Failed" },
+              { value: "done", label: "Done" },
             ]}
             className="w-36"
           />
@@ -180,19 +180,19 @@ export function SyncsView() {
           ) : !jobs.data ? (
             <Skeleton className="m-4 h-32" />
           ) : jobs.data.length === 0 ? (
-            <p className="px-4 pb-4 text-sm text-muted-foreground">Пусто.</p>
+            <p className="px-4 pb-4 text-sm text-muted-foreground">Empty.</p>
           ) : (
             <div className="overflow-x-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
                     <TableHead>#</TableHead>
-                    <TableHead>Тип</TableHead>
-                    <TableHead>Что</TableHead>
-                    <TableHead>Статус</TableHead>
-                    <TableHead className="text-right">Попытки</TableHead>
-                    <TableHead>Создана</TableHead>
-                    <TableHead>Результат</TableHead>
+                    <TableHead>Type</TableHead>
+                    <TableHead>What</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead className="text-right">Attempts</TableHead>
+                    <TableHead>Created</TableHead>
+                    <TableHead>Result</TableHead>
                     <TableHead />
                   </TableRow>
                 </TableHeader>
@@ -221,11 +221,11 @@ export function SyncsView() {
                             variant="outline"
                             onClick={async () => {
                               await api.post(`/jobs/${j.id}/retry`);
-                              toast.success("Задача поставлена заново");
+                              toast.success("Job re-queued");
                               refreshAll();
                             }}
                           >
-                            Повторить
+                            Retry
                           </Button>
                         )}
                         {j.status === "queued" && (
@@ -237,7 +237,7 @@ export function SyncsView() {
                               refreshAll();
                             }}
                           >
-                            Отменить
+                            Cancel
                           </Button>
                         )}
                       </TableCell>

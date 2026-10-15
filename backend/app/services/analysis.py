@@ -20,46 +20,46 @@ from .settings import Effective
 
 log = logging.getLogger(__name__)
 
-PROMPT_VERSION = "1"
+PROMPT_VERSION = "2"
 
-SYSTEM = """Ты помогаешь фаундеру вести CRM по его аккаунту в X (Twitter).
-Тебе дают профиль человека и его последние твиты. Твоя задача: понять, кто это,
-о чём он пишет и насколько он полезен для нетворкинга под цель пользователя.
+SYSTEM = """You help a founder run a CRM for their X (Twitter) account.
+You are given a person's profile and their recent tweets. Work out who they are,
+what they post about and how useful they are for networking given the user's goal.
 
-Правила:
-- Пиши summary, relevance_reasons и red_flags по-русски, коротко и конкретно.
-- opener пиши на языке, на котором человек сам пишет твиты: это заготовка для
-  первого комментария под его твит, зацепка за конкретную тему из его твитов,
-  без лести и без продаж.
-- Оценка 5: прямо совпадает с целью (активный фаундер/инвестор/оператор из той же
-  среды, живой аккаунт, отвечает людям). 3: смежно или аккаунт полуживой. 1: бот,
-  спам, продажа курсов, пустой аккаунт, нерелевантная тема.
-- Если твитов нет или они только ретвиты, скажи об этом в summary и ставь оценку
-  не выше 2, кроме случаев когда био само по себе очень релевантно.
-- Не выдумывай факты, которых нет в данных."""
+Rules:
+- Write summary, relevance_reasons and red_flags in English, short and concrete.
+- Write opener in the language the person tweets in: it is a draft first comment
+  under one of their tweets, hooked to a specific topic from their tweets, no
+  flattery, no selling.
+- Score 5: direct match with the goal (active founder/investor/operator from the
+  same scene, live account, replies to people). 3: adjacent, or a half-dead
+  account. 1: bot, spam, course seller, empty account, irrelevant topic.
+- If there are no tweets or only retweets, say so in summary and score at most 2,
+  unless the bio alone is highly relevant.
+- Do not invent facts that are not in the data."""
 
 
 def _profile_block(p: Person) -> str:
     lines = [
         f"@{p.handle}" if p.handle else f"id {p.id}",
-        f"Имя: {p.name or '—'}",
-        f"Био: {p.bio or '—'}",
-        f"Локация: {p.location or '—'}",
-        f"Сайт: {p.url or '—'}",
-        f"Фолловеров: {p.followers_count if p.followers_count is not None else '—'}, "
-        f"подписок: {p.following_count if p.following_count is not None else '—'}, "
-        f"твитов: {p.tweets_count if p.tweets_count is not None else '—'}",
-        f"Аккаунт создан: {p.account_created_at.date().isoformat() if p.account_created_at else '—'}",
-        f"Верифицирован: {'да' if p.verified else 'нет'}",
-        f"Связь со мной: {'фолловит меня' if p.is_follower else 'не фолловит меня'}, "
-        f"{'я фоловлю' if p.is_following else 'я не фоловлю'}",
+        f"Name: {p.name or '—'}",
+        f"Bio: {p.bio or '—'}",
+        f"Location: {p.location or '—'}",
+        f"Website: {p.url or '—'}",
+        f"Followers: {p.followers_count if p.followers_count is not None else '—'}, "
+        f"following: {p.following_count if p.following_count is not None else '—'}, "
+        f"tweets: {p.tweets_count if p.tweets_count is not None else '—'}",
+        f"Account created: {p.account_created_at.date().isoformat() if p.account_created_at else '—'}",
+        f"Verified: {'yes' if p.verified else 'no'}",
+        f"Relationship with me: {'follows me' if p.is_follower else 'does not follow me'}, "
+        f"{'I follow them' if p.is_following else 'I do not follow them'}",
     ]
     return "\n".join(lines)
 
 
 def _tweets_block(tweets: list[Tweet]) -> str:
     if not tweets:
-        return "(твитов нет)"
+        return "(no tweets)"
     out = []
     for t in tweets:
         when = t.created_at.date().isoformat() if t.created_at else "?"
@@ -110,10 +110,10 @@ async def analyze_person(session: Session, eff: Effective, person: Person, force
             return cached, False
 
     user_msg = (
-        f"Цель пользователя:\n{eff.analysis_goal}\n\n"
-        f"Профиль:\n{_profile_block(person)}\n\n"
-        f"Последние твиты ({len(tweets)}):\n{_tweets_block(tweets)}\n\n"
-        "Ответь строго JSON по заданной схеме."
+        f"User's goal:\n{eff.analysis_goal}\n\n"
+        f"Profile:\n{_profile_block(person)}\n\n"
+        f"Recent tweets ({len(tweets)}):\n{_tweets_block(tweets)}\n\n"
+        "Answer strictly as JSON matching the given schema."
     )
     schema = AnalysisResult.model_json_schema()
     schema["additionalProperties"] = False

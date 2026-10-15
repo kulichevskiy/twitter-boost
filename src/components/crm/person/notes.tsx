@@ -21,7 +21,7 @@ export function Notes({ personId, notes, onChanged }: { personId: string; notes:
       setText("");
       onChanged();
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Ошибка");
+      toast.error(e instanceof Error ? e.message : "Error");
     } finally {
       setBusy(false);
     }
@@ -36,13 +36,13 @@ export function Notes({ personId, notes, onChanged }: { personId: string; notes:
           void add();
         }}
       >
-        <Textarea value={text} onChange={(e) => setText(e.target.value)} rows={3} placeholder="Новая заметка" />
+        <Textarea value={text} onChange={(e) => setText(e.target.value)} rows={3} placeholder="New note" />
         <Button size="sm" type="submit" disabled={busy || !text.trim()}>
-          Добавить
+          Add
         </Button>
       </form>
       {notes.length === 0 ? (
-        <p className="text-sm text-muted-foreground">Заметок нет.</p>
+        <p className="text-sm text-muted-foreground">No notes yet.</p>
       ) : (
         <ul className="divide-y">
           {notes.map((n) => (
@@ -54,7 +54,7 @@ export function Notes({ personId, notes, onChanged }: { personId: string; notes:
               <Button
                 size="icon-xs"
                 variant="ghost"
-                aria-label="Удалить"
+                aria-label="Delete"
                 onClick={async () => {
                   await api.del(`/people/${personId}/notes/${n.id}`);
                   onChanged();

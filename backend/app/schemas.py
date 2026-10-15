@@ -141,15 +141,15 @@ class TweetOut(BaseModel):
 class AnalysisResult(BaseModel):
     """What the model returns. Keep flat and strict: it doubles as the JSON schema."""
 
-    summary: str = Field(description="Кто это и чем занимается, 1-2 предложения, по-русски")
+    summary: str = Field(description="Who this person is and what they do, 1-2 sentences, in English")
     persona: Literal["founder", "investor", "developer", "marketer", "creator", "company", "bot", "other"]
-    topics: list[str] = Field(description="3-6 коротких тем, о которых человек пишет")
-    language: str = Field(description="Основной язык твитов, код ISO 639-1")
-    relevance_score: int = Field(ge=1, le=5, description="Насколько полезен для нетворкинга под цель пользователя, 1-5")
-    relevance_reasons: list[str] = Field(description="2-4 коротких причины оценки, по-русски")
-    engagement_style: str = Field(description="Как человек ведёт себя в X: треды, реплаи, мемы, редко пишет и т.п.")
-    opener: str = Field(description="Чем зацепить в первом комментарии или сообщении, на языке человека")
-    red_flags: list[str] = Field(description="Что настораживает: бот, спам, продаёт курсы и т.п. Пусто если ничего")
+    topics: list[str] = Field(description="3-6 short topics the person tweets about")
+    language: str = Field(description="Primary language of the tweets, ISO 639-1 code")
+    relevance_score: int = Field(ge=1, le=5, description="How useful for networking given the user's goal, 1-5")
+    relevance_reasons: list[str] = Field(description="2-4 short reasons for the score, in English")
+    engagement_style: str = Field(description="How they behave on X: threads, replies, memes, rarely posts, etc.")
+    opener: str = Field(description="A hook for a first reply or DM, written in the person's own language")
+    red_flags: list[str] = Field(description="Warning signs: bot, spam, sells courses, etc. Empty if none")
 
 
 class AnalysisOut(BaseModel):

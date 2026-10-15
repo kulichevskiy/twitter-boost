@@ -42,7 +42,7 @@ export function FilterBar({ filter, onChange }: { filter: PeopleFilter; onChange
     <div className="flex flex-wrap items-center gap-2">
       <div className="relative">
         <SearchIcon className="pointer-events-none absolute top-1/2 left-2 size-4 -translate-y-1/2 text-muted-foreground" />
-        <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Хендл, имя, био" className="h-7 w-56 pl-8 text-[0.8rem]" />
+        <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Handle, name, bio" className="h-7 w-56 pl-8 text-[0.8rem]" />
       </div>
       <SimpleSelect
         value={filter.relation ?? "any"}
@@ -52,7 +52,7 @@ export function FilterBar({ filter, onChange }: { filter: PeopleFilter; onChange
       />
       <DropdownMenu>
         <DropdownMenuTrigger render={<Button variant="outline" size="sm" />}>
-          {stages.length ? `Стадии: ${stages.length}` : "Стадия"} <ChevronDownIcon />
+          {stages.length ? `Stages: ${stages.length}` : "Stage"} <ChevronDownIcon />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           {STAGES.map((s) => (
@@ -71,17 +71,17 @@ export function FilterBar({ filter, onChange }: { filter: PeopleFilter; onChange
         value={filter.score_min ? String(filter.score_min) : "0"}
         onChange={(v) => set({ score_min: v && v !== "0" ? Number(v) : null })}
         options={[
-          { value: "0", label: "Оценка: любая" },
-          { value: "3", label: "Оценка ≥ 3" },
-          { value: "4", label: "Оценка ≥ 4" },
-          { value: "5", label: "Оценка 5" },
+          { value: "0", label: "Any score" },
+          { value: "3", label: "Score ≥ 3" },
+          { value: "4", label: "Score ≥ 4" },
+          { value: "5", label: "Score 5" },
         ]}
         className="w-36"
       />
       <Input
         type="number"
         inputMode="numeric"
-        placeholder="фолл. от"
+        placeholder="followers from"
         value={filter.followers_min ?? ""}
         onChange={(e) => set({ followers_min: e.target.value ? Number(e.target.value) : null })}
         className="h-7 w-24 text-[0.8rem]"
@@ -89,22 +89,22 @@ export function FilterBar({ filter, onChange }: { filter: PeopleFilter; onChange
       <Input
         type="number"
         inputMode="numeric"
-        placeholder="до"
+        placeholder="to"
         value={filter.followers_max ?? ""}
         onChange={(e) => set({ followers_max: e.target.value ? Number(e.target.value) : null })}
         className="h-7 w-20 text-[0.8rem]"
       />
       <Label className="flex items-center gap-1.5 text-xs">
         <Checkbox checked={filter.has_analysis === true} onCheckedChange={(c) => set({ has_analysis: c ? true : null })} />
-        разобраны
+        analyzed
       </Label>
       <Label className="flex items-center gap-1.5 text-xs">
         <Checkbox checked={filter.verified === true} onCheckedChange={(c) => set({ verified: c ? true : null })} />
-        верифиц.
+        verified
       </Label>
       <Label className="flex items-center gap-1.5 text-xs">
         <Checkbox checked={filter.overdue === true} onCheckedChange={(c) => set({ overdue: c ? true : null })} />
-        просрочены
+        overdue
       </Label>
       <div className="ml-auto flex items-center gap-2">
         <SimpleSelect
@@ -115,7 +115,7 @@ export function FilterBar({ filter, onChange }: { filter: PeopleFilter; onChange
         />
         {active > 0 && (
           <Button variant="ghost" size="sm" onClick={() => onChange({ ...DEFAULT_FILTER, sort: filter.sort })}>
-            <XIcon /> Сбросить ({active})
+            <XIcon /> Reset ({active})
           </Button>
         )}
       </div>

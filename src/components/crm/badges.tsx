@@ -22,17 +22,17 @@ export function RelationBadges({
   isFollowing: boolean;
   className?: string;
 }) {
-  if (!isFollower && !isFollowing) return <span className={cn("text-xs text-muted-foreground", className)}>нет связи</span>;
+  if (!isFollower && !isFollowing) return <span className={cn("text-xs text-muted-foreground", className)}>no relation</span>;
   return (
     <span className={cn("flex flex-wrap gap-1", className)}>
       {isFollower && (
         <Badge variant="outline" className="border-transparent bg-emerald-500/10 text-emerald-700 dark:text-emerald-300">
-          фолловит
+          follows me
         </Badge>
       )}
       {isFollowing && (
         <Badge variant="outline" className="border-transparent bg-blue-500/10 text-blue-700 dark:text-blue-300">
-          я фоловлю
+          I follow
         </Badge>
       )}
     </span>
@@ -42,7 +42,7 @@ export function RelationBadges({
 export function ScoreDots({ score, className }: { score: number | null | undefined; className?: string }) {
   if (score === null || score === undefined) return <span className={cn("text-xs text-muted-foreground", className)}>—</span>;
   return (
-    <span className={cn("inline-flex items-center gap-0.5", className)} title={`Оценка ${score} из 5`} aria-label={`Оценка ${score} из 5`}>
+    <span className={cn("inline-flex items-center gap-0.5", className)} title={`Score ${score} of 5`} aria-label={`Score ${score} of 5`}>
       {[1, 2, 3, 4, 5].map((i) => (
         <span
           key={i}

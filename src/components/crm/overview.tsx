@@ -64,16 +64,16 @@ export function Overview() {
             <>
               <PersonAvatar src={data.account.avatar_url} name={data.account.name} handle={data.account.handle} className="size-10" />
               <div>
-                <div className="font-semibold">{data.account.name ?? "Мой аккаунт"}</div>
+                <div className="font-semibold">{data.account.name ?? "My account"}</div>
                 <div className="text-sm text-muted-foreground">
-                  @{data.account.handle ?? "?"} · {data.account.followers_count ?? "—"} фолловеров · {data.account.following_count ?? "—"} подписок
+                  @{data.account.handle ?? "?"} · {data.account.followers_count ?? "—"} followers · {data.account.following_count ?? "—"} following
                 </div>
               </div>
             </>
           )}
           {!data.account && (
             <div className="text-sm text-muted-foreground">
-              Аккаунт ещё не синхронизирован. Заполни <Link href="/crm/settings" className="underline">настройки</Link> и запусти синк.
+              Account not synced yet. Fill in <Link href="/crm/settings" className="underline">settings</Link> and run a sync.
             </div>
           )}
         </div>
@@ -82,37 +82,37 @@ export function Overview() {
           disabled={running || busy}
           onClick={() =>
             start(() => api.post<JobOut>("/syncs/run"), {
-              pending: "Синхронизирую списки…",
+              pending: "Syncing lists…",
               success: (j) => {
                 const r = j.result ?? {};
-                return `Синк ${String(r.status)}: +${String(r.added_followers ?? 0)}/−${String(r.removed_followers ?? 0)} фолловеров, +${String(r.added_following ?? 0)}/−${String(r.removed_following ?? 0)} подписок`;
+                return `Sync ${String(r.status)}: +${String(r.added_followers ?? 0)}/−${String(r.removed_followers ?? 0)} followers, +${String(r.added_following ?? 0)}/−${String(r.removed_following ?? 0)} following`;
               },
               onDone: () => void mutate(),
             })
           }
         >
-          <RefreshCwIcon className={running || busy ? "animate-spin" : ""} /> Синхронизировать
+          <RefreshCwIcon className={running || busy ? "animate-spin" : ""} /> Sync now
         </Button>
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        <Stat label="Фолловеры" value={data.followers} href="/crm/people?relation=follower" />
-        <Stat label="Подписки" value={data.following} href="/crm/people?relation=following" />
-        <Stat label="Взаимные" value={data.mutual} href="/crm/people?relation=mutual" />
-        <Stat label="Не фоловят в ответ" value={data.not_following_back} href="/crm/people?relation=following_only" />
-        <Stat label="Фанаты (я не фоловлю)" value={data.fans} href="/crm/people?relation=follower_only" />
-        <Stat label="Ждут ответа" value={data.waiting} href="/crm/pipeline" tone="warn" />
-        <Stat label="Просрочено" value={data.overdue} href="/crm/people?overdue=true" tone="danger" />
+        <Stat label="Followers" value={data.followers} href="/crm/people?relation=follower" />
+        <Stat label="Following" value={data.following} href="/crm/people?relation=following" />
+        <Stat label="Mutual" value={data.mutual} href="/crm/people?relation=mutual" />
+        <Stat label="Not following back" value={data.not_following_back} href="/crm/people?relation=following_only" />
+        <Stat label="Fans (I don't follow)" value={data.fans} href="/crm/people?relation=follower_only" />
+        <Stat label="Waiting for follow-back" value={data.waiting} href="/crm/pipeline" tone="warn" />
+        <Stat label="Overdue" value={data.overdue} href="/crm/people?overdue=true" tone="danger" />
         <Card size="sm">
           <CardContent>
-            <div className="text-xs text-muted-foreground">Очередь</div>
+            <div className="text-xs text-muted-foreground">Queue</div>
             <div className="text-sm">
-              <span className="font-semibold tabular-nums">{data.jobs.queued}</span> в очереди ·{" "}
-              <span className="font-semibold tabular-nums">{data.jobs.running}</span> в работе
+              <span className="font-semibold tabular-nums">{data.jobs.queued}</span> queued ·{" "}
+              <span className="font-semibold tabular-nums">{data.jobs.running}</span> running
               {data.jobs.failed > 0 && (
                 <>
                   {" "}
-                  · <Link href="/crm/syncs" className="text-red-600 underline dark:text-red-400">{data.jobs.failed} ошибок</Link>
+                  · <Link href="/crm/syncs" className="text-red-600 underline dark:text-red-400">{data.jobs.failed} failed</Link>
                 </>
               )}
             </div>
@@ -123,14 +123,14 @@ export function Overview() {
       <div className="grid gap-4 lg:grid-cols-3">
         <Card size="sm">
           <CardHeader>
-            <CardTitle>Последний синк</CardTitle>
+            <CardTitle>Last sync</CardTitle>
             <CardDescription>
               {sync ? (
                 <>
-                  {relativeTime(sync.started_at)} · следующий {data.next_sync_at ? formatDate(data.next_sync_at, true) : "выключен"}
+                  {relativeTime(sync.started_at)} · next {data.next_sync_at ? formatDate(data.next_sync_at, true) : "off"}
                 </>
               ) : (
-                "Ещё не было"
+                "None yet"
               )}
             </CardDescription>
           </CardHeader>
@@ -138,12 +138,12 @@ export function Overview() {
             <CardContent className="space-y-2 text-sm">
               <div className="flex items-center gap-2">
                 <Badge variant={sync.status === "ok" ? "secondary" : sync.status === "running" ? "outline" : "destructive"}>{sync.status}</Badge>
-                <span className="text-muted-foreground">{sync.kind} · {sync.source} · {sync.requests} запросов</span>
+                <span className="text-muted-foreground">{sync.kind} · {sync.source} · {sync.requests} requests</span>
               </div>
               <div className="grid grid-cols-2 gap-1 tabular-nums">
-                <span>Фолловеры: {sync.followers_total ?? "—"}</span>
+                <span>Followers: {sync.followers_total ?? "—"}</span>
                 <span className="text-muted-foreground">+{sync.added_followers} / −{sync.removed_followers}</span>
-                <span>Подписки: {sync.following_total ?? "—"}</span>
+                <span>Following: {sync.following_total ?? "—"}</span>
                 <span className="text-muted-foreground">+{sync.added_following} / −{sync.removed_following}</span>
               </div>
               {sync.error && <p className="text-xs text-red-600 dark:text-red-400">{sync.error}</p>}
@@ -153,16 +153,16 @@ export function Overview() {
 
         <Card size="sm">
           <CardHeader>
-            <CardTitle>Динамика</CardTitle>
-            <CardDescription>События за 7 и 30 дней</CardDescription>
+            <CardTitle>Trend</CardTitle>
+            <CardDescription>Events over 7 and 30 days</CardDescription>
           </CardHeader>
           <CardContent>
             <table className="w-full text-sm tabular-nums">
               <thead className="text-xs text-muted-foreground">
                 <tr>
-                  <th className="text-left font-normal">событие</th>
-                  <th className="text-right font-normal">7д</th>
-                  <th className="text-right font-normal">30д</th>
+                  <th className="text-left font-normal">event</th>
+                  <th className="text-right font-normal">7d</th>
+                  <th className="text-right font-normal">30d</th>
                 </tr>
               </thead>
               <tbody>
@@ -180,8 +180,8 @@ export function Overview() {
 
         <Card size="sm">
           <CardHeader>
-            <CardTitle>Пайплайн</CardTitle>
-            <CardDescription>Контакты по стадиям</CardDescription>
+            <CardTitle>Pipeline</CardTitle>
+            <CardDescription>Contacts by stage</CardDescription>
           </CardHeader>
           <CardContent className="flex flex-wrap gap-2">
             {Object.keys(STAGE_LABELS).map((s) => {
@@ -194,20 +194,20 @@ export function Overview() {
                 </Link>
               );
             })}
-            {Object.values(data.stages).every((n) => !n) && <p className="text-sm text-muted-foreground">Пусто. Добавь людей на странице «Люди».</p>}
+            {Object.values(data.stages).every((n) => !n) && <p className="text-sm text-muted-foreground">Empty. Add people on the People page.</p>}
           </CardContent>
         </Card>
       </div>
 
       <Card size="sm">
         <CardHeader>
-          <CardTitle>Последние события</CardTitle>
+          <CardTitle>Recent events</CardTitle>
         </CardHeader>
         <CardContent>
           <EventFeed events={data.recent_events} />
           <div className="pt-2 text-right">
             <Link href="/crm/events" className="text-sm text-muted-foreground hover:underline">
-              Все события →
+              All events →
             </Link>
           </div>
         </CardContent>

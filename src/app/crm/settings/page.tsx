@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SettingsForm } from "@/components/crm/settings-form";
 
-export const metadata: Metadata = { title: "Настройки" };
+export const metadata: Metadata = { title: "Settings" };
 
 export default function SettingsPage() {
   return (

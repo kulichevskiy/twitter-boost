@@ -21,13 +21,13 @@ async function request<T>(method: string, path: string, body?: unknown): Promise
       cache: "no-store",
     });
   } catch {
-    throw new ApiError(0, "Бэкенд недоступен");
+    throw new ApiError(0, "Backend unreachable");
   }
   if (!res.ok) {
     let detail = res.statusText;
     try {
       const data = await res.json();
-      if (data?.detail === "backend_unreachable") detail = "Бэкенд недоступен";
+      if (data?.detail === "backend_unreachable") detail = "Backend unreachable";
       else if (typeof data?.detail === "string") detail = data.detail;
       else if (data?.detail) detail = JSON.stringify(data.detail);
     } catch {
@@ -71,7 +71,7 @@ export async function pollJob(id: number, { intervalMs = 1500, timeoutMs = 10 * 
   for (;;) {
     const job = await api.get<JobOut>(`/jobs/${id}`);
     if (job.status === "done" || job.status === "failed" || job.status === "cancelled") return job;
-    if (Date.now() - started > timeoutMs) throw new ApiError(408, "Задача выполняется слишком долго");
+    if (Date.now() - started > timeoutMs) throw new ApiError(408, "Job is taking too long");
     await sleep(intervalMs);
   }
 }

@@ -14,8 +14,8 @@ export function AnalysisCard({ analysis, count }: { analysis: AnalysisOut | null
     return (
       <Empty className="rounded-xl ring-1 ring-foreground/10">
         <EmptyHeader>
-          <EmptyTitle>Ещё не разобран</EmptyTitle>
-          <EmptyDescription>Нажми «Разобрать»: подтянем твиты и попросим Claude оценить человека под твою цель.</EmptyDescription>
+          <EmptyTitle>Not analyzed yet</EmptyTitle>
+          <EmptyDescription>Click “Analyze”: we fetch recent tweets and ask the model to rate this person against your goal.</EmptyDescription>
         </EmptyHeader>
       </Empty>
     );
@@ -23,7 +23,7 @@ export function AnalysisCard({ analysis, count }: { analysis: AnalysisOut | null
   const r = analysis.result;
   const copy = async () => {
     await navigator.clipboard.writeText(r.opener);
-    toast.success("Скопировано");
+    toast.success("Copied");
   };
   return (
     <div className="space-y-4 text-sm">
@@ -33,8 +33,8 @@ export function AnalysisCard({ analysis, count }: { analysis: AnalysisOut | null
         <Badge variant="secondary">{personaLabel(r.persona)}</Badge>
         <Badge variant="outline">{r.language}</Badge>
         <span className="ml-auto text-xs text-muted-foreground">
-          {formatDate(analysis.created_at, true)} · {analysis.model} · {analysis.tweets_used} твитов
-          {count > 1 && ` · разборов: ${count}`}
+          {formatDate(analysis.created_at, true)} · {analysis.model} · {analysis.tweets_used} tweets
+          {count > 1 && ` · ${count} analyses`}
         </span>
       </div>
       <p className="text-base">{r.summary}</p>
@@ -47,7 +47,7 @@ export function AnalysisCard({ analysis, count }: { analysis: AnalysisOut | null
       </div>
       <div className="grid gap-4 md:grid-cols-2">
         <section>
-          <h3 className="mb-1 text-xs font-medium text-muted-foreground uppercase">Почему такая оценка</h3>
+          <h3 className="mb-1 text-xs font-medium text-muted-foreground uppercase">Why this score</h3>
           <ul className="list-disc space-y-0.5 pl-5">
             {r.relevance_reasons.map((x, i) => (
               <li key={i}>{x}</li>
@@ -55,11 +55,11 @@ export function AnalysisCard({ analysis, count }: { analysis: AnalysisOut | null
           </ul>
         </section>
         <section>
-          <h3 className="mb-1 text-xs font-medium text-muted-foreground uppercase">Как ведёт себя в X</h3>
+          <h3 className="mb-1 text-xs font-medium text-muted-foreground uppercase">Behaviour on X</h3>
           <p>{r.engagement_style}</p>
           {r.red_flags.length > 0 && (
             <>
-              <h3 className="mt-3 mb-1 text-xs font-medium text-red-600 uppercase dark:text-red-400">Настораживает</h3>
+              <h3 className="mt-3 mb-1 text-xs font-medium text-red-600 uppercase dark:text-red-400">Red flags</h3>
               <ul className="list-disc space-y-0.5 pl-5">
                 {r.red_flags.map((x, i) => (
                   <li key={i}>{x}</li>
@@ -71,9 +71,9 @@ export function AnalysisCard({ analysis, count }: { analysis: AnalysisOut | null
       </div>
       <section>
         <div className="mb-1 flex items-center justify-between">
-          <h3 className="text-xs font-medium text-muted-foreground uppercase">Зацепка для первого сообщения</h3>
+          <h3 className="text-xs font-medium text-muted-foreground uppercase">Opener</h3>
           <Button size="xs" variant="ghost" onClick={() => void copy()}>
-            <CopyIcon /> копировать
+            <CopyIcon /> copy
           </Button>
         </div>
         <blockquote className="rounded-lg bg-muted/60 p-3 whitespace-pre-line">{r.opener}</blockquote>

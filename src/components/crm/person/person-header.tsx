@@ -26,7 +26,7 @@ export function PersonHeader({ person, onChanged }: { person: PersonOut; onChang
       setOpen(false);
       onChanged();
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Ошибка");
+      toast.error(e instanceof Error ? e.message : "Error");
     }
   };
   const removeTag = async (name: string) => {
@@ -56,13 +56,13 @@ export function PersonHeader({ person, onChanged }: { person: PersonOut; onChang
         {person.bio && <p className="text-sm whitespace-pre-line">{person.bio}</p>}
         <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground tabular-nums">
           <span>
-            <b className="text-foreground">{compact(person.followers_count)}</b> фолловеров
+            <b className="text-foreground">{compact(person.followers_count)}</b> followers
           </span>
           <span>
-            <b className="text-foreground">{compact(person.following_count)}</b> подписок
+            <b className="text-foreground">{compact(person.following_count)}</b> following
           </span>
           <span>
-            <b className="text-foreground">{compact(person.tweets_count)}</b> твитов
+            <b className="text-foreground">{compact(person.tweets_count)}</b> tweets
           </span>
           {person.location && <span>{person.location}</span>}
           {person.url && (
@@ -70,29 +70,29 @@ export function PersonHeader({ person, onChanged }: { person: PersonOut; onChang
               {person.url.replace(/^https?:\/\//, "")}
             </a>
           )}
-          {person.account_created_at && <span>в X с {formatDate(person.account_created_at)}</span>}
+          {person.account_created_at && <span>on X since {formatDate(person.account_created_at)}</span>}
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <RelationBadges isFollower={person.is_follower} isFollowing={person.is_following} />
           {person.relevance_score !== null && (
             <span className="flex items-center gap-1 text-xs text-muted-foreground">
-              <ScoreDots score={person.relevance_score} /> оценка
+              <ScoreDots score={person.relevance_score} /> score
             </span>
           )}
-          <span className="text-xs text-muted-foreground">в базе {relativeTime(person.first_seen_at)}</span>
+          <span className="text-xs text-muted-foreground">in CRM {relativeTime(person.first_seen_at)}</span>
         </div>
         <div className="flex flex-wrap items-center gap-1">
           {person.tags.map((t) => (
             <Badge key={t.id} variant="outline" className="gap-1 pr-1">
               {t.name}
-              <button type="button" onClick={() => void removeTag(t.name)} aria-label={`Убрать тег ${t.name}`} className="rounded hover:bg-muted">
+              <button type="button" onClick={() => void removeTag(t.name)} aria-label={`Remove tag ${t.name}`} className="rounded hover:bg-muted">
                 <XIcon className="size-3" />
               </button>
             </Badge>
           ))}
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger render={<Button size="xs" variant="ghost" />}>
-              <PlusIcon /> тег
+              <PlusIcon /> tag
             </PopoverTrigger>
             <PopoverContent className="w-56 p-2">
               <form
@@ -102,9 +102,9 @@ export function PersonHeader({ person, onChanged }: { person: PersonOut; onChang
                   void addTag();
                 }}
               >
-                <Input autoFocus value={tag} onChange={(e) => setTag(e.target.value)} placeholder="название" className="h-7 text-[0.8rem]" />
+                <Input autoFocus value={tag} onChange={(e) => setTag(e.target.value)} placeholder="name" className="h-7 text-[0.8rem]" />
                 <Button size="sm" type="submit">
-                  Ок
+                  OK
                 </Button>
               </form>
             </PopoverContent>

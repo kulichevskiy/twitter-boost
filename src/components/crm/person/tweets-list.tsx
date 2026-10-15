@@ -4,7 +4,7 @@ import { compact, formatDate } from "@/lib/crm/format";
 import type { TweetOut } from "@/lib/crm/types";
 
 export function TweetsList({ tweets }: { tweets: TweetOut[] }) {
-  if (!tweets.length) return <p className="text-sm text-muted-foreground">Твиты ещё не загружены. Нажми «Обновить твиты».</p>;
+  if (!tweets.length) return <p className="text-sm text-muted-foreground">Tweets not loaded yet. Click “Refresh tweets”.</p>;
   return (
     <ul className="divide-y">
       {tweets.map((t) => (
@@ -17,7 +17,7 @@ export function TweetsList({ tweets }: { tweets: TweetOut[] }) {
             {t.lang && <span>{t.lang}</span>}
             {t.url && (
               <a href={t.url} target="_blank" rel="noreferrer" className="ml-auto inline-flex items-center gap-1 hover:underline">
-                открыть <ExternalLinkIcon className="size-3" />
+                open <ExternalLinkIcon className="size-3" />
               </a>
             )}
           </div>

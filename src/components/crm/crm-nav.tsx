@@ -5,12 +5,12 @@ import { usePathname } from "next/navigation";
 import { cn } from "cn";
 
 const items = [
-  { href: "/crm", label: "Обзор", exact: true },
-  { href: "/crm/people", label: "Люди" },
-  { href: "/crm/pipeline", label: "Пайплайн" },
-  { href: "/crm/events", label: "События" },
-  { href: "/crm/syncs", label: "Синки" },
-  { href: "/crm/settings", label: "Настройки" },
+  { href: "/crm", label: "Overview", exact: true },
+  { href: "/crm/people", label: "People" },
+  { href: "/crm/pipeline", label: "Pipeline" },
+  { href: "/crm/events", label: "Events" },
+  { href: "/crm/syncs", label: "Syncs" },
+  { href: "/crm/settings", label: "Settings" },
 ];
 
 export function CrmNav() {

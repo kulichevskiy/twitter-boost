@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SyncsView } from "@/components/crm/syncs-view";
 
-export const metadata: Metadata = { title: "Синки" };
+export const metadata: Metadata = { title: "Syncs" };
 
 export default function SyncsPage() {
   return (

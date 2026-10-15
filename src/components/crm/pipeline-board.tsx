@@ -41,11 +41,11 @@ function PersonCard({ p, onMove }: { p: PersonOut; onMove: (id: string, stage: S
           {p.name && <div className="truncate text-xs text-muted-foreground">{p.name}</div>}
         </div>
         <DropdownMenu>
-          <DropdownMenuTrigger render={<Button size="icon-xs" variant="ghost" aria-label="Действия" />}>
+          <DropdownMenuTrigger render={<Button size="icon-xs" variant="ghost" aria-label="Actions" />}>
             <MoreHorizontalIcon />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Перевести</DropdownMenuLabel>
+            <DropdownMenuLabel>Move to</DropdownMenuLabel>
             <DropdownMenuSeparator />
             {STAGES.filter((s) => s !== p.stage).map((s) => (
               <DropdownMenuItem key={s} onClick={() => onMove(p.id, s)}>
@@ -57,10 +57,10 @@ function PersonCard({ p, onMove }: { p: PersonOut; onMove: (id: string, stage: S
       </div>
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground tabular-nums">
         {p.relevance_score !== null && <ScoreDots score={p.relevance_score} />}
-        {p.is_follower && <span className="text-emerald-700 dark:text-emerald-300">фолловит</span>}
+        {p.is_follower && <span className="text-emerald-700 dark:text-emerald-300">follows me</span>}
         {p.deadline_at && (p.stage === "followed" || p.stage === "engaged") && left !== null && (
           <span className={cn(left < 0 && "font-medium text-red-600 dark:text-red-400")}>
-            {left < 0 ? `просрочен на ${-left} дн.` : left === 0 ? "дедлайн сегодня" : `ещё ${left} дн.`}
+            {left < 0 ? `${-left}d overdue` : left === 0 ? "deadline today" : `${left}d left`}
           </span>
         )}
       </div>
@@ -77,7 +77,7 @@ export function PipelineBoard() {
       toast.success(`→ ${STAGE_LABELS[stage]}`);
       void mutate();
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Ошибка");
+      toast.error(e instanceof Error ? e.message : "Error");
     }
   };
 
@@ -88,7 +88,7 @@ export function PipelineBoard() {
 
   return (
     <div className="space-y-3">
-      <h1 className="text-xl font-semibold tracking-tight">Пайплайн</h1>
+      <h1 className="text-xl font-semibold tracking-tight">Pipeline</h1>
       <div className="-mx-4 flex gap-3 overflow-x-auto px-4 pb-2">
         {visible.map((s) => {
           const items = data.columns[s] ?? [];
@@ -99,7 +99,7 @@ export function PipelineBoard() {
                 <span className="text-xs text-muted-foreground tabular-nums">{items.length}</span>
               </div>
               <div className="space-y-2 rounded-xl bg-muted/40 p-2">
-                {items.length === 0 && <p className="px-1 py-6 text-center text-xs text-muted-foreground">пусто</p>}
+                {items.length === 0 && <p className="px-1 py-6 text-center text-xs text-muted-foreground">empty</p>}
                 {items.map((p) => (
                   <PersonCard key={p.id} p={p} onMove={(id, st) => void move(id, st)} />
                 ))}
