@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# media & generated
+/video/
+
+# local Claude Code permissions
+.claude/settings.local.json

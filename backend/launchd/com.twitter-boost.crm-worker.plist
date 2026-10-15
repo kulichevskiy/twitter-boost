@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.twitter-boost.crm-worker</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/Users/adjust/.local/bin/uv</string>
+    <string>run</string>
+    <string>crm</string>
+    <string>worker</string>
+  </array>
+  <key>WorkingDirectory</key><string>/Users/adjust/Code/twitter-boost/backend</string>
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key><true/>
+  <key>StandardOutPath</key><string>/Users/adjust/Code/twitter-boost/backend/data/worker.log</string>
+  <key>StandardErrorPath</key><string>/Users/adjust/Code/twitter-boost/backend/data/worker.log</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key><string>/Users/adjust/.local/bin:/usr/local/bin:/usr/bin:/bin</string>
+  </dict>
+</dict>
+</plist>
