@@ -207,6 +207,8 @@ def apply_sort(stmt: Select[tuple[Person]], sort: str) -> Select[tuple[Person]]:
         col = func.lower(Person.handle)
     elif key == "followers":
         col = Person.followers_count
+    elif key == "tweets":
+        col = Person.tweets_count
     elif key == "first_seen":
         col = Person.first_seen_at
     elif key == "score":

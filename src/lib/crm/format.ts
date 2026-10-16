@@ -121,6 +121,8 @@ export const SORT_LABELS: Record<SortKey, string> = {
   last_event: "Oldest event",
   "-followers": "Most followers",
   followers: "Fewest followers",
+  "-tweets": "Most tweets",
+  tweets: "Fewest tweets",
   "-score": "Highest score",
   score: "Lowest score",
   "-first_seen": "Newest",

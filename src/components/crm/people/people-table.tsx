@@ -11,10 +11,10 @@ import { cn } from "cn";
 import { PersonAvatar } from "../person-avatar";
 import { RelationBadges, ScoreDots, StageBadge } from "../badges";
 
-type SortField = "handle" | "followers" | "score" | "last_event";
+type SortField = "handle" | "followers" | "tweets" | "score" | "last_event";
 
 /** Which direction a column opens with on first click. */
-const DEFAULT_DESC: Record<SortField, boolean> = { handle: false, followers: true, score: true, last_event: true };
+const DEFAULT_DESC: Record<SortField, boolean> = { handle: false, followers: true, tweets: true, score: true, last_event: true };
 
 function parseSort(sort: SortKey | undefined): { field: string; desc: boolean } {
   const s = sort ?? "-last_event";
@@ -83,6 +83,7 @@ export function PeopleTable({
             </TableHead>
             <SortableHead field="handle" label="Person" sort={sort} onSort={onSort} />
             <SortableHead field="followers" label="Followers" sort={sort} onSort={onSort} className="text-right" />
+            <SortableHead field="tweets" label="Tweets" sort={sort} onSort={onSort} className="text-right" />
             <TableHead>Relation</TableHead>
             <TableHead>Stage</TableHead>
             <SortableHead field="score" label="Score" sort={sort} onSort={onSort} />
@@ -110,6 +111,7 @@ export function PeopleTable({
                 </Link>
               </TableCell>
               <TableCell className="text-right tabular-nums">{compact(p.followers_count)}</TableCell>
+              <TableCell className="text-right tabular-nums text-muted-foreground">{compact(p.tweets_count)}</TableCell>
               <TableCell>
                 <RelationBadges isFollower={p.is_follower} isFollowing={p.is_following} />
               </TableCell>

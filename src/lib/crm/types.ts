@@ -58,6 +58,8 @@ export type SortKey =
   | "-handle"
   | "followers"
   | "-followers"
+  | "tweets"
+  | "-tweets"
   | "first_seen"
   | "-first_seen"
   | "last_event"

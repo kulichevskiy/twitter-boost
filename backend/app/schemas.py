@@ -16,7 +16,7 @@ EventType = Literal[
     "followed_me", "unfollowed_me", "i_followed", "i_unfollowed", "profile_changed", "stage_changed", "note_added", "analyzed"
 ]
 SortKey = Literal[
-    "handle", "-handle", "followers", "-followers", "first_seen", "-first_seen", "last_event", "-last_event", "score", "-score", "deadline", "-deadline"
+    "handle", "-handle", "followers", "-followers", "tweets", "-tweets", "first_seen", "-first_seen", "last_event", "-last_event", "score", "-score", "deadline", "-deadline"
 ]
 
 
