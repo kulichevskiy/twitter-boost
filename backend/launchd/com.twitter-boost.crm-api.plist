@@ -5,19 +5,19 @@
   <key>Label</key><string>com.twitter-boost.crm-api</string>
   <key>ProgramArguments</key>
   <array>
-    <string>/Users/adjust/.local/bin/uv</string>
+    <string>__UV__</string>
     <string>run</string>
     <string>crm</string>
     <string>serve</string>
   </array>
-  <key>WorkingDirectory</key><string>/Users/adjust/Code/twitter-boost/backend</string>
+  <key>WorkingDirectory</key><string>__BACKEND_DIR__</string>
   <key>RunAtLoad</key><true/>
   <key>KeepAlive</key><true/>
-  <key>StandardOutPath</key><string>/Users/adjust/Code/twitter-boost/backend/data/api.log</string>
-  <key>StandardErrorPath</key><string>/Users/adjust/Code/twitter-boost/backend/data/api.log</string>
+  <key>StandardOutPath</key><string>__BACKEND_DIR__/data/api.log</string>
+  <key>StandardErrorPath</key><string>__BACKEND_DIR__/data/api.log</string>
   <key>EnvironmentVariables</key>
   <dict>
-    <key>PATH</key><string>/Users/adjust/.local/bin:/usr/local/bin:/usr/bin:/bin</string>
+    <key>PATH</key><string>__HOME__/.local/bin:/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin</string>
   </dict>
 </dict>
 </plist>

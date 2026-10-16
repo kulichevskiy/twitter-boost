@@ -26,8 +26,8 @@ uv run crm db revision -m "…" # autogenerate a migration after changing models
 uv run pytest                 # tests run against the synthetic "fake" source
 ```
 
-`launchd/` has two plists to keep the API and the worker running on a Mac:
-`cp launchd/*.plist ~/Library/LaunchAgents/ && launchctl load ~/Library/LaunchAgents/com.twitter-boost.crm-*.plist`.
+`launchd/install.sh` installs the API and the worker as launchd agents for the current
+user (it fills in the `uv` path and the repo location in the plist templates).
 
 ## Credentials
 
