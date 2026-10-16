@@ -186,3 +186,7 @@ to X. The model provider sees the profile and tweets you send for analysis.
   obvious next step. twitterapi.io stays read-only here on purpose.
 - The analysis prompt is written for founder networking. Change `ANALYSIS_GOAL`, or
   edit `backend/app/services/analysis.py`, for other goals.
+
+## License
+
+MIT, see [LICENSE](LICENSE).
