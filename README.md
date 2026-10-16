@@ -45,24 +45,43 @@ Self-hosted, single user, SQLite. Runs fine on a Mac mini in a closet.
 ## How it works
 
 ```
- browser ──► Next.js (:3100) ──proxy /api/crm/*──► FastAPI (:8000) ──► SQLite
-                 │  shadcn/ui                      │   REST + MCP        ▲
-                 │                                 │                     │
-                 │                           ┌─────┴─────┐          worker process
-                 │                           │ sources   │        (queue + schedule)
-                 │                           │ x_official│───► api.x.com
-                 │                           │ twitterapi│───► api.twitterapi.io
-                 │                           └───────────┘
-                 │                           ┌───────────┐
-                 │                           │ llm       │───► claude -p / codex exec /
-                 │                           └───────────┘     Anthropic API
+browser ──► Next.js :3100 ──► FastAPI :8000 ──► SQLite (people, relations, events, tweets, analyses, jobs)
+            shadcn/ui         REST + MCP            ▲
+            proxy adds the                          │ reads and writes
+            bearer token                     worker process: job queue + daily schedule
+                                                    │
+                                   ┌────────────────┼──────────────────┐
+                                   ▼                ▼                  ▼
+                              sync lists      fetch tweets         analyze
+                                   │                │                  │
+                            X API / twitterapi.io   │          LLM via claude -p,
+                                                    └─ twitterapi.io   codex exec or
+                                                       or X API        Anthropic API
 ```
+
+1. **Sync** (scheduled or on demand): the worker pulls your full followers and
+   following lists from the configured source, hydrates profiles of people it has not
+   seen, diffs against the previous state and writes events and pipeline transitions.
+2. **Fetch tweets** (on demand, per person or in bulk): the last N tweets are stored
+   locally.
+3. **Analyze** (on demand): profile plus stored tweets go to an LLM with a strict JSON
+   schema; the verdict (persona, topics, 1–5 score, reasons, behaviour, opener, red
+   flags) is saved and shown on the person card and in filters. The model runs through
+   whichever provider you pick: Claude Code CLI or Codex CLI on your subscription, or the
+   Anthropic API with a key.
+4. **You act**: follow, comment, wait; the next sync records what happened.
+
+Pieces:
 
 - **Frontend**: Next.js 16, React 19, shadcn/ui. A route handler proxies `/api/crm/*`
   to the backend and adds the bearer token, so the browser never sees it.
 - **Backend**: FastAPI, SQLAlchemy 2, Alembic, SQLite in WAL mode. Two processes from
   the same code: `crm serve` (API + MCP) and `crm worker` (jobs and schedule).
-- **Sync algorithm** and the data model are documented in
+- **Sources** (`backend/app/sources/`): one `Source` protocol, adapters for the official
+  X API and twitterapi.io, plus a synthetic one for development.
+- **LLM providers** (`backend/app/services/llm.py`): one function per backend, all
+  returning the same validated `AnalysisResult`.
+- The sync algorithm and the data model are documented in
   [`backend/README.md`](backend/README.md).
 
 ## Requirements
