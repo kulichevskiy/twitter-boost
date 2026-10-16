@@ -125,7 +125,8 @@ export const SORT_LABELS: Record<SortKey, string> = {
   score: "Lowest score",
   "-first_seen": "Newest",
   first_seen: "Oldest",
-  handle: "By handle",
+  handle: "Handle A–Z",
+  "-handle": "Handle Z–A",
   deadline: "By deadline",
 };
 

@@ -55,6 +55,7 @@ export const EVENT_TYPES: EventType[] = [
 
 export type SortKey =
   | "handle"
+  | "-handle"
   | "followers"
   | "-followers"
   | "first_seen"

@@ -88,7 +88,14 @@ export function PeopleView() {
         </Empty>
       ) : data ? (
         <>
-          <PeopleTable people={data.items} selected={selected} onToggle={toggle} onToggleAll={toggleAll} />
+          <PeopleTable
+            people={data.items}
+            selected={selected}
+            onToggle={toggle}
+            onToggleAll={toggleAll}
+            sort={filter.sort}
+            onSort={(sort) => setFilter({ ...filter, sort, page: 1 })}
+          />
           <div className="flex items-center justify-between text-sm text-muted-foreground">
             <span className="tabular-nums">
               Page {page} of {pages}
