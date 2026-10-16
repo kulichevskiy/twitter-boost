@@ -177,13 +177,6 @@ lists, your OAuth tokens, your notes, and the full id lists of every sync (zstd
 compressed). With twitterapi.io your queries go to a third party; with the X API they go
 to X. The model provider sees the profile and tweets you send for analysis.
 
-## Also in this repo
-
-`/course` is the author's lesson player for a Russian-language Twitter workshop. It shares
-the Next.js app and has nothing to do with the CRM. To remove it, delete
-`src/app/course`, `src/components/catalog`, `src/components/player`,
-`src/components/summary.tsx`, `src/content` and `content/`.
-
 ## Limits
 
 - Event time is sync time, because X does not expose follow timestamps. Sync more often

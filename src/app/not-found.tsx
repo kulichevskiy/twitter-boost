@@ -9,9 +9,6 @@ export default function NotFound() {
         <Button render={<Link href="/crm" />} variant="outline">
           Open CRM
         </Button>
-        <Button render={<Link href="/course" />} variant="outline">
-          Go to course
-        </Button>
       </div>
     </div>
   );

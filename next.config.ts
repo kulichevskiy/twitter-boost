@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   cacheComponents: true,
   redirects() {
-    // The landing page is the CRM; the course lives under /course.
+    // The landing page is the CRM.
     return [{ source: "/", destination: "/crm", permanent: false }];
   },
   partialPrefetching: true,

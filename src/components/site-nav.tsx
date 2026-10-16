@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { cn } from "cn";
 
 const items = [
-  { href: "/course", label: "Course" },
   { href: "/crm", label: "CRM" },
 ];
 
