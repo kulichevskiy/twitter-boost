@@ -44,20 +44,7 @@ Self-hosted, single user, SQLite. Runs fine on a Mac mini in a closet.
 
 ## How it works
 
-```
-browser ──► Next.js :3100 ──► FastAPI :8000 ──► SQLite (people, relations, events, tweets, analyses, jobs)
-            shadcn/ui         REST + MCP            ▲
-            proxy adds the                          │ reads and writes
-            bearer token                     worker process: job queue + daily schedule
-                                                    │
-                                   ┌────────────────┼──────────────────┐
-                                   ▼                ▼                  ▼
-                              sync lists      fetch tweets         analyze
-                                   │                │                  │
-                            X API / twitterapi.io   │          LLM via claude -p,
-                                                    └─ twitterapi.io   codex exec or
-                                                       or X API        Anthropic API
-```
+![Architecture](docs/architecture.svg)
 
 1. **Sync** (scheduled or on demand): the worker pulls your full followers and
    following lists from the configured source, hydrates profiles of people it has not

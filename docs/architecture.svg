@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" role="img" aria-label="Architecture of Twitter Boost CRM">
+<defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#525252"/></marker></defs>
+<rect width="1200" height="640" rx="16" fill="#0a0a0a"/>
+<text x="32" y="40" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#fafafa">Twitter Boost CRM</text>
+<text x="206" y="40" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" fill="#a3a3a3">how it works</text>
+<rect x="32" y="76" width="180" height="96" rx="12" fill="#171717" stroke="#2a2a2a"/>
+<text x="48" y="104" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#fafafa">You</text>
+<text x="48" y="126" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#a3a3a3">browser on a laptop</text>
+<text x="48" y="144" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#a3a3a3">or phone over Tailscale</text>
+<rect x="32" y="196" width="180" height="96" rx="12" fill="#171717" stroke="#2a2a2a"/>
+<text x="48" y="224" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#fafafa">Agents</text>
+<rect x="160" y="210" width="36" height="20" rx="10" fill="rgba(139,92,246,0.12)"/>
+<text x="178" y="224" text-anchor="middle" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="500" fill="#c4b5fd">MCP</text>
+<text x="48" y="246" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#a3a3a3">Claude Code, Codex,</text>
+<text x="48" y="264" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#a3a3a3">any MCP client</text>
+<rect x="272" y="76" width="236" height="96" rx="12" fill="#171717" stroke="#2a2a2a"/>
+<text x="288" y="104" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#fafafa">Next.js</text>
+<rect x="443" y="90" width="49" height="20" rx="10" fill="#262626"/>
+<text x="468" y="104" text-anchor="middle" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="500" fill="#a3a3a3">:3100</text>
+<text x="288" y="126" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#a3a3a3">shadcn/ui, port 3100</text>
+<text x="288" y="144" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#a3a3a3">proxy /api/crm/* adds the</text>
+<text x="288" y="162" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#a3a3a3">bearer token</text>
+<rect x="568" y="76" width="236" height="96" rx="12" fill="#171717" stroke="#2a2a2a"/>
+<text x="584" y="104" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#fafafa">FastAPI</text>
+<rect x="739" y="90" width="49" height="20" rx="10" fill="#262626"/>
+<text x="764" y="104" text-anchor="middle" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="500" fill="#a3a3a3">:8000</text>
+<text x="584" y="126" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#a3a3a3">REST + OpenAPI at /api/crm</text>
+<text x="584" y="144" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#a3a3a3">MCP (streamable HTTP) at /mcp</text>
+<text x="584" y="162" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#a3a3a3">bearer-token auth</text>
+<rect x="864" y="76" width="304" height="124" rx="12" fill="#171717" stroke="#2a2a2a"/>
+<text x="880" y="104" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#fafafa">SQLite</text>
+<text x="880" y="126" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12.5" fill="#a3a3a3">people · relations · events</text>
+<text x="880" y="144" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12.5" fill="#a3a3a3">contacts (pipeline) · tags · notes</text>
+<text x="880" y="162" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12.5" fill="#a3a3a3">tweets · analyses · snapshots</text>
+<text x="880" y="180" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12.5" fill="#a3a3a3">jobs · settings · x_tokens</text>
+<path d="M212,124 L272,124" fill="none" stroke="#525252" stroke-width="1.5" marker-end="url(#arr)"/>
+<path d="M508,124 L568,124" fill="none" stroke="#525252" stroke-width="1.5" marker-end="url(#arr)"/>
+<path d="M804,124 L864,124" fill="none" stroke="#525252" stroke-width="1.5" marker-end="url(#arr)"/>
+<path d="M212,244 L538,244 L538,204 L610,204 L610,172" fill="none" stroke="#525252" stroke-width="1.5" marker-end="url(#arr)" stroke-dasharray="5 5"/>
+<rect x="338" y="235" width="73" height="18" rx="9" fill="#0a0a0a"/>
+<text x="375" y="248" text-anchor="middle" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="#a3a3a3">MCP tools</text>
+<rect x="568" y="236" width="236" height="96" rx="12" fill="#171717" stroke="#2a2a2a"/>
+<text x="584" y="264" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#fafafa">Worker</text>
+<rect x="726" y="250" width="62" height="20" rx="10" fill="#262626"/>
+<text x="757" y="264" text-anchor="middle" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="500" fill="#a3a3a3">process</text>
+<text x="584" y="286" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#a3a3a3">crm worker: SQLite job queue,</text>
+<text x="584" y="304" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#a3a3a3">retries, dedupe, daily schedule</text>
+<path d="M804,284 L1016,284 L1016,200" fill="none" stroke="#525252" stroke-width="1.5" marker-end="url(#arr)"/>
+<rect x="856" y="275" width="107" height="18" rx="9" fill="#0a0a0a"/>
+<text x="910" y="288" text-anchor="middle" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="#a3a3a3">reads · writes</text>
+<path d="M700,172 L700,236" fill="none" stroke="#525252" stroke-width="1.5" marker-end="url(#arr)" stroke-dasharray="5 5"/>
+<rect x="710" y="195" width="60" height="18" rx="9" fill="#0a0a0a"/>
+<text x="740" y="208" text-anchor="middle" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="#a3a3a3">enqueue</text>
+<text x="32" y="386" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="500" fill="#a3a3a3" letter-spacing="0.08em">JOBS</text>
+<rect x="32" y="400" width="340" height="112" rx="12" fill="#171717" stroke="#2a2a2a"/>
+<text x="48" y="428" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#fafafa">Sync lists</text>
+<rect x="281" y="414" width="75" height="20" rx="10" fill="rgba(16,185,129,0.12)"/>
+<text x="318" y="428" text-anchor="middle" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="500" fill="#6ee7b7">scheduled</text>
+<text x="48" y="450" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#a3a3a3">pull followers + following, hydrate new</text>
+<text x="48" y="468" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#a3a3a3">profiles, diff vs. previous snapshot,</text>
+<text x="48" y="486" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#a3a3a3">write events and pipeline transitions</text>
+<rect x="404" y="400" width="340" height="112" rx="12" fill="#171717" stroke="#2a2a2a"/>
+<text x="420" y="428" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#fafafa">Fetch tweets</text>
+<rect x="653" y="414" width="75" height="20" rx="10" fill="rgba(14,165,233,0.12)"/>
+<text x="690" y="428" text-anchor="middle" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="500" fill="#7dd3fc">on demand</text>
+<text x="420" y="450" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#a3a3a3">store the last N tweets of a person,</text>
+<text x="420" y="468" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#a3a3a3">per person or in bulk</text>
+<rect x="776" y="400" width="392" height="112" rx="12" fill="#171717" stroke="#2a2a2a"/>
+<text x="792" y="428" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#fafafa">Analyze</text>
+<rect x="1037" y="414" width="115" height="20" rx="10" fill="rgba(245,158,11,0.12)"/>
+<text x="1094" y="428" text-anchor="middle" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="500" fill="#fcd34d">on demand · LLM</text>
+<text x="792" y="450" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#a3a3a3">profile + tweets → strict JSON verdict:</text>
+<text x="792" y="468" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#a3a3a3">persona, topics, 1–5 score, reasons,</text>
+<text x="792" y="486" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#a3a3a3">behaviour, opener, red flags · cached</text>
+<path d="M686,332 L686,366 L202,366 L202,400" fill="none" stroke="#525252" stroke-width="1.5" marker-end="url(#arr)"/>
+<path d="M686,366 L574,366 L574,400" fill="none" stroke="#525252" stroke-width="1.5" marker-end="url(#arr)"/>
+<path d="M686,366 L972,366 L972,400" fill="none" stroke="#525252" stroke-width="1.5" marker-end="url(#arr)"/>
+<text x="32" y="548" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="500" fill="#a3a3a3" letter-spacing="0.08em">OUTSIDE</text>
+<rect x="32" y="560" width="340" height="64" rx="12" fill="#171717" stroke="#2a2a2a"/>
+<text x="48" y="588" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#fafafa">X API</text>
+<text x="48" y="610" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#a3a3a3">api.x.com · OAuth 2.0 · owned reads of my lists</text>
+<rect x="404" y="560" width="340" height="64" rx="12" fill="#171717" stroke="#2a2a2a"/>
+<text x="420" y="588" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#fafafa">twitterapi.io</text>
+<text x="420" y="610" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#a3a3a3">API key · pay per call · lists, profiles, tweets</text>
+<rect x="776" y="560" width="392" height="64" rx="12" fill="#171717" stroke="#2a2a2a"/>
+<text x="792" y="588" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#fafafa">LLM providers</text>
+<rect x="1011" y="574" width="141" height="20" rx="10" fill="rgba(245,158,11,0.12)"/>
+<text x="1081" y="588" text-anchor="middle" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="500" fill="#fcd34d">subscription or key</text>
+<text x="792" y="610" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#a3a3a3">claude -p · codex exec · Anthropic API</text>
+<path d="M150,512 L150,560" fill="none" stroke="#525252" stroke-width="1.5" marker-end="url(#arr)"/>
+<path d="M254,512 L254,536 L500,536 L500,560" fill="none" stroke="#525252" stroke-width="1.5" marker-end="url(#arr)"/>
+<path d="M574,512 L574,560" fill="none" stroke="#525252" stroke-width="1.5" marker-end="url(#arr)"/>
+<path d="M972,512 L972,560" fill="none" stroke="#525252" stroke-width="1.5" marker-end="url(#arr)"/>
+</svg>
